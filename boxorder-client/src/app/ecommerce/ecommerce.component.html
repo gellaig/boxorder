@@ -3,22 +3,22 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation" (click)="toggleCollapsed()">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon">test</span>
         </button>
         <div id="navbarResponsive" [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" (click)="reset()">Home
+                    <a class="nav-link" href="#" (click)="reset(false, true)"><i class="fa fa-home fa-2x"></i>
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
 				<li class="nav-item active">
-                    <a class="nav-link" href="#" (click)="reset()">Box
+                    <a class="nav-link" href="#" (click)="reset(true, false)"><i class="fa fa-cube fa-2x"></i>
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
 				<li class="nav-item active">
-                    <a class="nav-link" href="#" (click)="showCart()">Cart [{{this.shoppingCartC.gettotalQuantity()}}]
+                    <a class="nav-link" href="#" (click)="showCart()"><i class="fa fa-shopping-cart fa-2x"></i> {{this.shoppingCartC.gettotalQuantity()}}
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
@@ -28,13 +28,16 @@
 </nav>
 <div class="row">
     <div class="col-md-9">
-        <app-products #productsC [hidden]="orderFinished"></app-products>
+        <app-products #productsC [hidden]="!showProduct"></app-products>
     </div>
-    <div class="col-md-3">
+        <div class="col-md-3" >
         <app-shopping-cart (onOrderFinished)=finishOrder($event) #shoppingCartC
                            ></app-shopping-cart>
     </div>
-    <div class="col-md-6 offset-3">
+    <div class="col-md-9">
+        <app-box #boxC [hidden]="!showBox"></app-box>
+    </div>
+    <div class="col-md-5 offset-3">
         <app-orders #ordersC [hidden]="!orderFinished"></app-orders>
     </div>
 </div>

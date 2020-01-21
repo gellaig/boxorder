@@ -57,11 +57,13 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         this.orderFinished = true;
         this.ecommerceService.Total = this.total;
         this.onOrderFinished.emit(this.orderFinished);
+        this.showCart = false;
     }
 
     loadTotal() {
         this.sub = this.ecommerceService.OrdersChanged.subscribe(() => {
             this.total = this.calculateTotal(this.orders.productOrders);
+            this.totalQuantity = this.calculateQuantity(this.orders.productOrders);
         });
     }
 

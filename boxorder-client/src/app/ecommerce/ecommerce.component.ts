@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductsComponent} from "./products/products.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {OrdersComponent} from "./orders/orders.component";
+import {BoxComponent} from "./box/box.component";
 
 @Component({
     selector: 'app-ecommerce',
@@ -11,6 +12,8 @@ import {OrdersComponent} from "./orders/orders.component";
 export class EcommerceComponent implements OnInit {
     private collapsed = true;
     orderFinished = false;
+    showProduct = true;
+    showBox = false;
 
     @ViewChild('productsC', {static: true})
     productsC: ProductsComponent;
@@ -18,8 +21,12 @@ export class EcommerceComponent implements OnInit {
     @ViewChild('shoppingCartC', {static: true})
     shoppingCartC: ShoppingCartComponent;
 
-    @ViewChild('ordersC', {static: false})
+    @ViewChild('ordersC', {static: true})
     ordersC: OrdersComponent;
+
+    @ViewChild('boxC', {static: true})
+    boxC: BoxComponent;
+
 
     constructor() {
     }
@@ -33,16 +40,23 @@ export class EcommerceComponent implements OnInit {
 
     finishOrder(orderFinished: boolean) {
         this.orderFinished = orderFinished;
+        this.showBox = false;
+         this.showProduct = false;
     }
 
-    reset() {
+    reset(showbox: boolean, showpeoduct: boolean) {
+        if (this.ordersC.paid) {
+            this.productsC.reset();
+            this.shoppingCartC.reset();
+            this.ordersC.paid = false;
+        }
         this.orderFinished = false;
-        this.productsC.reset();
-        this.shoppingCartC.reset();
-        this.ordersC.paid = false;
+        this.showBox = showbox;
+        this.showProduct = showpeoduct;
     }
 	
 	showCart(){
 		this.shoppingCartC.showCart = !this.shoppingCartC.showCart;
-	}
+    }
+    
 }

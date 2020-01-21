@@ -19,13 +19,20 @@ public class BoxorderServerApplication {
 	@Bean
     CommandLineRunner runner(ProductService productService) {
         return args -> {
-           productService.save(new Product(1L, "TV Set", 300.00, "http://placehold.it/50x50"));
-           productService.save(new Product(2L, "Game Console", 200.00, "http://placehold.it/50x50"));
-           productService.save(new Product(3L, "Sofa", 100.00, "http://placehold.it/50x50"));
-       	   productService.save(new Product(4L, "Icecream", 5.00, "http://placehold.it/50x50"));
-       	    productService.save(new Product(5L, "Beer", 3.00, "http://placehold.it/50x50"));
-       	     productService.save(new Product(6L, "Phone", 500.00, "http://placehold.it/50x50"));
-       	     productService.save(new Product(7L, "Watch", 30.00, "http://placehold.it/50x50"));
+           productService.save(new Product(1L, "TV Set", 300.00, "https://bit.ly/3av0zeD"));
+           productService.save(new Product(2L, "Xbox", 500.00, "https://bit.ly/3av0zeD"));
+           productService.save(new Product(3L, "Sofa", 100.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(4L, "Icecream", 5.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(5L, "Beer", 3.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(6L, "Phone", 500.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(7L, "Watch", 30.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(8L, "Playstation", 500.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(9L, "Controller", 60.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(10L, "VR headset", 600.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(11L, "iPod", 999.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(12L, "iPhone", 899.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(13L, "Laptop", 700.00, "https://bit.ly/3av0zeD"));
+       	   productService.save(new Product(14L, "Charger", 25.00, "https://bit.ly/3av0zeD"));
         };
     }
 }
