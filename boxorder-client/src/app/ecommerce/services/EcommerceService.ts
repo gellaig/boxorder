@@ -8,6 +8,7 @@ import {Injectable} from "@angular/core";
 export class EcommerceService {
     private productsUrl = "/api/products";
     private ordersUrl = "/api/orders";
+    private locationUrl = "/api/locations";
 
     private productOrder: ProductOrder;
     private orders: ProductOrders = new ProductOrders();
@@ -27,6 +28,10 @@ export class EcommerceService {
 
     getAllProducts() {
         return this.http.get(this.productsUrl);
+    }
+
+     getAllLocations() {
+        return this.http.get(this.locationUrl);
     }
 
     saveOrder(order: ProductOrders) {

@@ -5,8 +5,16 @@
     </li>
 </ul>
 <h3 class="text-right">Total amount: ${{ total }}</h3>
+ 
+ <label for="sel1">Select location:</label>
+<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (ngModelChange)="onValueChanged($event)">
+         <option [ngValue]="undefined" disabled>Select An Option</option>
+        <option *ngFor="let location of locations" [ngValue]="location">{{ location.id }} - {{ location.name }}</option>
+      </select>
+      <br>
 
-<button class="btn btn-primary btn-block" (click)="pay()" *ngIf="!paid">Pay</button>
+
+<button class="btn btn-primary btn-block" (click)="pay()" *ngIf="!paid"  [disabled]="!selectedLocation">Pay</button>
 
 <div class="alert alert-success" role="alert" *ngIf="paid">
     <strong>Congratulation!</strong> You successfully made the order.

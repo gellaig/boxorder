@@ -2,6 +2,7 @@ package com.example.boxorderserver.controller;
 
 import com.example.boxorderserver.dto.OrderProductDto;
 import com.example.boxorderserver.exception.ResourceNotFoundException;
+import com.example.boxorderserver.model.Location;
 import com.example.boxorderserver.model.Order;
 import com.example.boxorderserver.model.OrderProduct;
 import com.example.boxorderserver.model.OrderStatus;
@@ -44,6 +45,8 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> create(@RequestBody OrderForm form) {
         List<OrderProductDto> formDtos = form.getProductOrders();
+        Location formLoc = form.getLocation();
+        
         validateProductsExistence(formDtos);
         Order order = new Order();
         order.setStatus(OrderStatus.PAID.name());
@@ -57,7 +60,8 @@ public class OrderController {
         }
 
         order.setOrderProducts(orderProducts);
-
+        order.setLocation(formLoc);
+        
         this.orderService.update(order);
 
         String uri = ServletUriComponentsBuilder
@@ -87,8 +91,17 @@ public class OrderController {
     public static class OrderForm {
 
         private List<OrderProductDto> productOrders;
+        private Location location;
+        
+        public Location getLocation() {
+			return location;
+		}
 
-        public List<OrderProductDto> getProductOrders() {
+		public void setLocation(Location location) {
+			this.location = location;
+		}
+
+		public List<OrderProductDto> getProductOrders() {
             return productOrders;
         }
 

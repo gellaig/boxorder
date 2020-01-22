@@ -28,6 +28,10 @@ public class Order {
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location location;
+    
     @Transient
     public Double getTotalOrderPrice() {
         double sum = 0D;
@@ -39,6 +43,14 @@ public class Order {
         return sum;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+    
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    
     public Long getId() {
         return id;
     }
