@@ -41,6 +41,12 @@ public class OrderController {
     public @NotNull Iterable<Order> list() {
         return this.orderService.getAllOrders();
     }
+    
+    @GetMapping("/location/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Iterable<Order> listByLocation(@PathVariable String id) {
+        return this.orderService.getAllOrdersByLocation(id);
+    }
 
     @PostMapping
     public ResponseEntity<Order> create(@RequestBody OrderForm form) {

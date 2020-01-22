@@ -55,6 +55,6 @@ export class OrdersComponent implements OnInit {
 
     public onValueChanged(selected: any): void {
         this.selectedLocation = selected;
-        console.log(this.selectedLocation); // should display the selected option.
+     //   console.log(this.selectedLocation); // should display the selected option.
     }
 }

@@ -8,7 +8,7 @@
  
  <label for="sel1">Select location:</label>
 <select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (ngModelChange)="onValueChanged($event)">
-         <option [ngValue]="undefined" disabled>Select An Option</option>
+         <option [ngValue]="undefined" disabled>Select location..</option>
         <option *ngFor="let location of locations" [ngValue]="location">{{ location.id }} - {{ location.name }}</option>
       </select>
       <br>

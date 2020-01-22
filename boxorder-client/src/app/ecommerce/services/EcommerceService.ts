@@ -31,7 +31,11 @@ export class EcommerceService {
     }
 
      getAllLocations() {
-        return this.http.get(this.locationUrl);
+         return this.http.get(this.locationUrl);
+    }
+
+    getOrdersByLocation(id : any) {
+          return this.http.get(this.ordersUrl + "/location/" + id);
     }
 
     saveOrder(order: ProductOrders) {
