@@ -9,6 +9,7 @@ import com.example.boxorderserver.model.OrderStatus;
 import com.example.boxorderserver.service.OrderProductService;
 import com.example.boxorderserver.service.OrderService;
 import com.example.boxorderserver.service.ProductService;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -80,6 +84,20 @@ public class OrderController {
 
         return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
     }
+    
+    @DeleteMapping("/{id}")
+	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long orderId){
+		Optional<Order> order = orderService.findById(orderId);
+
+		order.get().getOrderProducts().forEach(op -> {
+													orderProductService.delete(op);
+												});
+		
+		this.orderService.delete(order.get());
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
 
     private void validateProductsExistence(List<OrderProductDto> orderProducts) {
         List<OrderProductDto> list = orderProducts

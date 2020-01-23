@@ -47,4 +47,14 @@ export class BoxComponent implements OnInit {
      //   console.log(this.selectedLocation); // should display the selected option.
     }
 
+	deleteOrder(id: number) {
+    this.ecommerceService.deleteOrder(id)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.showBoxContent();
+        },
+        error => console.log(error));
+  }
+	
 }

@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Service
@@ -45,4 +47,14 @@ public class OrderServiceImpl implements OrderService {
 		
 		return ords;
     }
+
+	@Override
+	public Optional<Order> findById(Long id) {
+		return this.orderRepository.findById(id);
+	}
+
+	@Override
+	public void delete(@NotNull(message = "The order cannot be null.") @Valid Order order) {
+		this.orderRepository.delete(order);
+	}
 }

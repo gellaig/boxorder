@@ -6,22 +6,33 @@
       </select>
       <br>
   <div *ngIf="ordersAtLocation.length > 0">  
-<ul> 
-    <li *ngFor="let order of ordersAtLocation">
-        OrderId: {{ order.id }} <br>
+<ul class="list-group" *ngFor="let order of ordersAtLocation">
+    <li class="list-group-item">
+	<div class="row">
+       <div class="col-sm">
+		OrderId: {{ order.id }} <br>
         Status: {{ order.status }} <br>
         Location: {{order.location.name}}<br>
         DateCreated: {{order.dateCreated}}<br>
         TotalPrice: {{order.totalOrderPrice}}<br>
+		</div>
+		<div class="col-sm">
         Products: <br>
         <ul> 
             <li *ngFor="let product of order.orderProducts">
                 Name: {{product.product.name}} - Quantity: {{product.quantity}} - UnitPrice: ${{product.product.price}}
             </li>
         </ul>
+		</div>
+		<div class="col-1 padding-0">
+		<button class="btn btn-danger btn-block"
+          (click)="deleteOrder(order.id)"><i class="fa fa-trash fa-lg"></i>
+        </button>
+		</div>
+	 </div>
     </li>
 </ul>
 </div>
 <div *ngIf="!(ordersAtLocation.length > 0)">
-  Box is empty!
+  <h5 class="text-center">Box is empty!</h5>
   </div>  

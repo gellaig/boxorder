@@ -3,6 +3,7 @@ import {Subject} from "rxjs/internal/Subject";
 import {ProductOrders} from "../models/product-orders.model";
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from "@angular/core";
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class EcommerceService {
@@ -42,6 +43,10 @@ export class EcommerceService {
     saveOrder(order: ProductOrders) {
         return this.http.post(this.ordersUrl, order);
     }
+	
+	deleteOrder(id: number): Observable<any> {
+		return this.http.delete(`${this.ordersUrl}/${id}`, { responseType: 'text' });
+	}
 
     set SelectedProductOrder(value: ProductOrder) {
         this.productOrder = value;

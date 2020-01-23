@@ -3,6 +3,8 @@ package com.example.boxorderserver.service;
 import com.example.boxorderserver.model.Order;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -16,4 +18,8 @@ public interface OrderService {
     Order create(@NotNull(message = "The order cannot be null.") @Valid Order order);
 
     void update(@NotNull(message = "The order cannot be null.") @Valid Order order);
+    
+    void delete(@NotNull(message = "The order cannot be null.") @Valid Order order);
+    
+    Optional<Order> findById(Long id);
 }
