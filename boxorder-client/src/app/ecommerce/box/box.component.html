@@ -1,0 +1,27 @@
+<h2 class="text-center">BOXES</h2>
+ <label for="sel1">Select a box:</label>
+<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (ngModelChange)="onValueChanged($event)">
+         <option [ngValue]="undefined" disabled>Select box..</option>
+        <option *ngFor="let location of locations" [ngValue]="location">{{ location.id }} - {{ location.name }}</option>
+      </select>
+      <br>
+  <div *ngIf="ordersAtLocation.length > 0">  
+<ul> 
+    <li *ngFor="let order of ordersAtLocation">
+        OrderId: {{ order.id }} <br>
+        Status: {{ order.status }} <br>
+        Location: {{order.location.name}}<br>
+        DateCreated: {{order.dateCreated}}<br>
+        TotalPrice: {{order.totalOrderPrice}}<br>
+        Products: <br>
+        <ul> 
+            <li *ngFor="let product of order.orderProducts">
+                Name: {{product.product.name}} - Quantity: {{product.quantity}} - UnitPrice: ${{product.product.price}}
+            </li>
+        </ul>
+    </li>
+</ul>
+</div>
+<div *ngIf="!(ordersAtLocation.length > 0)">
+  Box is empty!
+  </div>  
