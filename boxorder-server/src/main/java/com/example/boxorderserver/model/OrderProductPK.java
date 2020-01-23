@@ -15,11 +15,11 @@ public class OrderProductPK implements Serializable {
 
     private static final long serialVersionUID = 476151177562655457L;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -88,4 +88,11 @@ public class OrderProductPK implements Serializable {
 
         return true;
     }
+
+	@Override
+	public String toString() {
+		return "OrderProductPK [ product=" + product + "]";
+	}
+    
+    
 }

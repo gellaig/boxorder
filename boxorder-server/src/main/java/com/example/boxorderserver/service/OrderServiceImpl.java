@@ -21,7 +21,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Iterable<Order> getAllOrders() {
-        return this.orderRepository.findAll();
+    	Iterable<Order> ords = this.orderRepository.findAll();
+    //	ords.forEach(ord -> System.out.println("********************************************************** " +ord.toString() + " **********************************************************"));
+    	return ords;
     }
 
     @Override
@@ -38,6 +40,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Iterable<Order> getAllOrdersByLocation(String id) {
-		return this.orderRepository.findAllByLocation(id);
-	}
+		Iterable<Order> ords = this.orderRepository.findAllByLocation(Long.parseLong(id));
+	//	ords.forEach(ord -> System.out.println("********************************************************** " +ord.toString() + " **********************************************************"));
+		
+		return ords;
+    }
 }

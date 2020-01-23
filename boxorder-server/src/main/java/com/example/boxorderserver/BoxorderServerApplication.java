@@ -21,6 +21,9 @@ public class BoxorderServerApplication {
 	@Bean
     CommandLineRunner runner(ProductService productService, LocationService locationService) {
         return args -> {
+        	
+        
+        	
            productService.save(new Product(1L, "TV Set", 300.00, "https://bit.ly/3av0zeD"));
            productService.save(new Product(2L, "Xbox", 500.00, "https://bit.ly/3av0zeD"));
            productService.save(new Product(3L, "Sofa", 100.00, "https://bit.ly/3av0zeD"));

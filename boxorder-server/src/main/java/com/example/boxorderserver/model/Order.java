@@ -87,4 +87,12 @@ public class Order {
     public int getNumberOfProducts() {
         return this.orderProducts.size();
     }
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", dateCreated=" + dateCreated + ", status=" + status + ", orderProducts="
+				+ orderProducts + ", location=" + location + "]";
+	}
+    
+    
 }

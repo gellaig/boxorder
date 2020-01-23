@@ -84,4 +84,11 @@ public class OrderProduct {
 
         return true;
     }
+
+	@Override
+	public String toString() {
+		return "OrderProduct [pk=" + pk + ", quantity=" + quantity + "]";
+	}
+    
+    
 }
