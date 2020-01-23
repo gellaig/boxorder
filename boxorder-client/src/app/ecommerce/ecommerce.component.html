@@ -29,13 +29,11 @@
 <div class="row">
     <div class="col-md-9">
         <app-products #productsC [hidden]="!showProduct"></app-products>
+        <app-box #boxC [hidden]="!showBox"></app-box>
     </div>
-        <div class="col-md-3" >
+    <div class="col-md-3" >
         <app-shopping-cart (onOrderFinished)=finishOrder($event) #shoppingCartC
                            ></app-shopping-cart>
-    </div>
-    <div class="col-md-9">
-        <app-box #boxC [hidden]="!showBox"></app-box>
     </div>
     <div class="col-md-5 offset-3">
         <app-orders #ordersC [hidden]="!orderFinished"></app-orders>
