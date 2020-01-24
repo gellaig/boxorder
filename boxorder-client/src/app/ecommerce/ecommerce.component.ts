@@ -19,12 +19,11 @@ export class EcommerceComponent implements OnInit {
     orderFinished = false;
     showProduct = true;
     showBox = false;
-    userName: string;
 
-    @ViewChild('productsC', {static: true})
+    @ViewChild('productsC', {static: false})
     productsC: ProductsComponent;
 
-    @ViewChild('loginC', {static: true})
+    @ViewChild('loginC', {static: false})
     loginC: LoginComponent;
 
       @ViewChild('shoppingCartC', {static: true})
@@ -33,29 +32,14 @@ export class EcommerceComponent implements OnInit {
     @ViewChild('ordersC', {static: true})
     ordersC: OrdersComponent;
 
-    @ViewChild('boxC', {static: true})
+    @ViewChild('boxC', {static: false})
     boxC: BoxComponent;
 
 
      constructor(private http: HttpClient) { }
 
     ngOnInit() {
-        let url = 'http://localhost:8080/user';
-
-        let headers: HttpHeaders = new HttpHeaders({
-            'Authorization': 'Basic ' + sessionStorage.getItem('token')
-        });
-
-        let options = { headers: headers };
-        this.http.post<Observable<Object>>(url, {}, options).
-            subscribe(principal => {
-                this.userName = principal['name'];
-            },
-            error => {
-                if(error.status == 401)
-                    alert('Unauthorized');
-            }
-        );
+    
     }
 
     toggleCollapsed(): void {
@@ -66,6 +50,15 @@ export class EcommerceComponent implements OnInit {
         this.orderFinished = orderFinished;
         this.showBox = false;
          this.showProduct = false;
+    }
+
+     reloadAllData(loginSuccess: boolean) {
+         this.loginC.getLoginUser();
+         console.log(this.loginC.userName);
+         this.productsC.loadProducts();
+         //this.productsC.loadOrders();
+         this.boxC.loadLocations();
+         this.ordersC.loadLocations();
     }
 
     reset(showbox: boolean, showpeoduct: boolean) {
@@ -88,7 +81,7 @@ export class EcommerceComponent implements OnInit {
     
     logout() {
         sessionStorage.setItem('token', '');
-        this.userName = null;
+        this.loginC.userName = null;
     }
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

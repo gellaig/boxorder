@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { routing }        from './app.routing';
 
 import {AppComponent} from './app.component';
 import {EcommerceComponent} from './ecommerce/ecommerce.component';
@@ -11,6 +12,7 @@ import {OrdersComponent} from './ecommerce/orders/orders.component';
 import {EcommerceService} from "./ecommerce/services/EcommerceService";
 import { BoxComponent } from './ecommerce/box/box.component';
 import { LoginComponent } from './ecommerce/login/login.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -26,8 +28,10 @@ import { LoginComponent } from './ecommerce/login/login.component';
         BrowserModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        routing
     ],
+    exports: [RouterModule],
     providers: [EcommerceService],
     bootstrap: [AppComponent]
 })

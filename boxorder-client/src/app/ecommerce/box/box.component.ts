@@ -28,7 +28,7 @@ export class BoxComponent implements OnInit {
     }
 
   ngOnInit() {
-     this.loadLocations();
+   //  this.loadLocations();
   }
 
   showBoxContent() {

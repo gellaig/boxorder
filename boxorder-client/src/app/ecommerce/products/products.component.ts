@@ -23,7 +23,7 @@ export class ProductsComponent implements OnInit {
 
     ngOnInit() {
         this.productOrders = [];
-        this.loadProducts();
+       // this.loadProducts();
         this.loadOrders();
     }
 
