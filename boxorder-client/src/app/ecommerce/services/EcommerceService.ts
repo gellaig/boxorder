@@ -7,9 +7,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class EcommerceService {
-    private productsUrl = "/api/products";
-    private ordersUrl = "/api/orders";
-    private locationUrl = "/api/locations";
+     private baseUrl = "http://localhost:8080";
+    private productsUrl = this.baseUrl +"/api/products";
+    private ordersUrl = this.baseUrl +"/api/orders";
+    private locationUrl = this.baseUrl +"/api/locations";
 
     private productOrder: ProductOrder;
     private orders: ProductOrders = new ProductOrders();

@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {EcommerceService} from "./ecommerce/services/EcommerceService";
+import {LoginService} from "./login/services/LoginService";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    providers: [EcommerceService]
+    providers: [LoginService]
 })
 export class AppComponent {
 

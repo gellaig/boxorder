@@ -1,9 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
 import { EcommerceComponent } from './ecommerce/ecommerce.component';
+import { LoginComponent } from './login/login.component';
+import { TestComponent } from './test/test.component';
 
 const appRoutes: Routes = [
-    { path: '', component: EcommerceComponent },
+    { path: '', component: LoginComponent },
+    { path: 'ecommerce', component: EcommerceComponent },
+    { path: 'test', component: TestComponent },
     { path: '**', redirectTo: '' }
 ];
 
-export const routing = RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'});
+export const routing = RouterModule.forRoot(appRoutes);

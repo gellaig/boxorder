@@ -10,9 +10,11 @@ import {ProductsComponent} from './ecommerce/products/products.component';
 import {ShoppingCartComponent} from './ecommerce/shopping-cart/shopping-cart.component';
 import {OrdersComponent} from './ecommerce/orders/orders.component';
 import {EcommerceService} from "./ecommerce/services/EcommerceService";
+import {LoginService} from "./login/services/LoginService";
 import { BoxComponent } from './ecommerce/box/box.component';
-import { LoginComponent } from './ecommerce/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +24,8 @@ import { RouterModule } from '@angular/router';
         ShoppingCartComponent,
         OrdersComponent,
         BoxComponent,
-        LoginComponent
+        LoginComponent,
+        TestComponent
     ],
     imports: [
         BrowserModule,
@@ -32,7 +35,7 @@ import { RouterModule } from '@angular/router';
         routing
     ],
     exports: [RouterModule],
-    providers: [EcommerceService],
+    providers: [EcommerceService, LoginService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

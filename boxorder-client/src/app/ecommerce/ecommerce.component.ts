@@ -2,12 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import {ProductsComponent} from "./products/products.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {BoxComponent} from "./box/box.component";
-import {LoginComponent} from "./login/login.component";
 
 @Component({
     selector: 'app-ecommerce',
@@ -19,12 +19,10 @@ export class EcommerceComponent implements OnInit {
     orderFinished = false;
     showProduct = true;
     showBox = false;
+    currentUser : string;
 
     @ViewChild('productsC', {static: false})
     productsC: ProductsComponent;
-
-    @ViewChild('loginC', {static: false})
-    loginC: LoginComponent;
 
       @ViewChild('shoppingCartC', {static: true})
     shoppingCartC: ShoppingCartComponent;
@@ -36,10 +34,17 @@ export class EcommerceComponent implements OnInit {
     boxC: BoxComponent;
 
 
-     constructor(private http: HttpClient) { }
+     constructor(private http: HttpClient,
+     private router: Router) {
+
+       }
 
     ngOnInit() {
-    
+         this.currentUser =  sessionStorage.getItem('currentusername');
+
+         if (!this.currentUser){
+            this.logout();
+         }
     }
 
     toggleCollapsed(): void {
@@ -53,8 +58,8 @@ export class EcommerceComponent implements OnInit {
     }
 
      reloadAllData(loginSuccess: boolean) {
-         this.loginC.getLoginUser();
-         console.log(this.loginC.userName);
+        // this.loginC.getLoginUser();
+        // console.log(this.loginC.userName);
          this.productsC.loadProducts();
          //this.productsC.loadOrders();
          this.boxC.loadLocations();
@@ -75,24 +80,11 @@ export class EcommerceComponent implements OnInit {
 	showCart(){
 		this.shoppingCartC.showCart = !this.shoppingCartC.showCart;
     }
-    showLogin(){
-		this.loginC.showLogin = !this.loginC.showLogin;
-    }
     
     logout() {
         sessionStorage.setItem('token', '');
-        this.loginC.userName = null;
+        sessionStorage.setItem('currentusername', '');
+        this.router.navigate(['']);
     }
-    private handleError(error: HttpErrorResponse) {
-        if (error.error instanceof ErrorEvent) {
-          console.error('An error occurred:', error.error.message);
-        } else {
-          console.error(
-            `Backend returned code ${error.status}, ` +
-            `body was: ${error.error}`);
-        }
-        return throwError(
-          'Something bad happened; please try again later.');
-      };
-    
+
 }
