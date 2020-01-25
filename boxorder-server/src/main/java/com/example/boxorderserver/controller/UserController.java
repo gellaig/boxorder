@@ -40,4 +40,5 @@ public class UserController {
 	    public @NotNull Iterable<Subsystem> getSubsystems() {
 	        return subsystemService.getAllSubsystems();
 	    }
+
 }

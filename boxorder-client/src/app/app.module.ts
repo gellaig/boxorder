@@ -13,8 +13,10 @@ import {EcommerceService} from "./ecommerce/services/EcommerceService";
 import {LoginService} from "./login/services/LoginService";
 import { BoxComponent } from './ecommerce/box/box.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './login/register/register.component';
 import { RouterModule } from '@angular/router';
 import { TestComponent } from './test/test.component';
+import { RegisterComponent } from './login/register/register.component';
 
 @NgModule({
     declarations: [
@@ -24,8 +26,10 @@ import { TestComponent } from './test/test.component';
         ShoppingCartComponent,
         OrdersComponent,
         BoxComponent,
+        RegisterComponent,
         LoginComponent,
-        TestComponent
+        TestComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,
