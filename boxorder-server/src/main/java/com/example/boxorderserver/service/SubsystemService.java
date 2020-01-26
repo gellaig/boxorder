@@ -13,5 +13,5 @@ public interface SubsystemService {
 
     Subsystem getSubsystem(@Min(value = 1L, message = "Invalid subsystem ID.") long id);
 
-    Subsystem save(Subsystem location);
+    Subsystem save(Subsystem subsystem);
 }

@@ -2,6 +2,8 @@ package com.example.boxorderserver.controller;
 
 import com.example.boxorderserver.model.Product;
 import com.example.boxorderserver.service.ProductService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin
 public class ProductController {
 
     private ProductService productService;

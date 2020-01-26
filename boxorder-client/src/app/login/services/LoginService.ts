@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 export class LoginService {
     private baseUrl = "http://localhost:8080";
     private loginUrl = this.baseUrl + "/login";
+    private registerUrl = this.baseUrl + "/register";
     private userUrl = this.baseUrl + "/user";
     private subsystemUrl = this.baseUrl +"/subsystem";
     
@@ -25,10 +26,17 @@ export class LoginService {
         return this.http.post<Observable<Object>>(this.userUrl, {}, options);
     }
 
-    login(model : any): Observable<Object> {
-       return this.http.post<Observable<Object>>(this.loginUrl, {
+    login(model : any): Observable<string> {
+       return this.http.post(this.loginUrl, {
             userName: model.username,
             password: model.password
-        });
+        },{responseType: 'text'});
+    }
+
+     register(model : any): Observable<string> {
+       return this.http.post(this.registerUrl, {
+            userName: model.username,
+            password: model.password
+        },{responseType: 'text'});
     }
 }

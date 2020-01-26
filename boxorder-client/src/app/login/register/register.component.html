@@ -4,6 +4,7 @@
 					<span class="login100-form-title p-b-33">
 						Sign up
 					</span>
+					<div class="alert alert-danger" *ngIf="serverError">{{serverError}}</div>
 
 					<div class="wrap-input100 validate-input" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
                         <input class="input100" type="text" name="username" placeholder="Username" [(ngModel)]="model.username" #username="ngModel" required />
@@ -28,10 +29,11 @@
 
 					<div class="container-login100-form-btn m-t-20">
 						<button class="login100-form-btn">
-							Register
+							<div *ngIf="!loading">Register</div>
+							<div class="loader" *ngIf="loading"></div>
 						</button>
                     </div>
-                    <div class="alert alert-danger" *ngIf="isRegisterSuccess <= 0">Register failed</div>
+                    <div class="alert alert-danger" *ngIf="registerError">{{registerError}}</div>
 					<div class="text-center">
 						<a href="#" class="txt2 hov1" routerLink="/login">
 							Back to login

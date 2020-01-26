@@ -28,7 +28,7 @@ public class SubsystemServiceImpl implements SubsystemService {
     }
 
     @Override
-    public Subsystem save(Subsystem Subsystem) {
-        return SubsystemRepository.save(Subsystem);
+    public Subsystem save(Subsystem subsystem) {
+        return SubsystemRepository.save(subsystem);
     }
 }

@@ -15,7 +15,9 @@ export class LoginComponent implements OnInit {
     model: any = {};  
     subsystems: Subsystem[] = [];
     selectedSubsystem : Subsystem;
-    isLoginSuccess : number;
+    loginError : any;
+    serverError : string;
+    loading : boolean;
 
     constructor(
         private router: Router,
@@ -26,6 +28,12 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         sessionStorage.setItem('token', '');
         this.loadSubsystems();
+        this.loading = false;
+    }
+
+    resetErrors(){
+        this.loginError = null;
+        this.serverError = null;
     }
 
     loadSubsystems() {
@@ -33,8 +41,12 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 (subsystems: any[]) => {
                     this.subsystems = subsystems;
+                    this.serverError = null;
                 },
-                (error) => console.log(error)
+                (error) => {
+                    this.serverError = "Server is currently unavailable. Please try again later."
+                    console.log(error);
+                }
             );
     }
 
@@ -54,25 +66,35 @@ export class LoginComponent implements OnInit {
 
    login() {
         if (this.selectedSubsystem) {
+            this.loading = true;
+            this.resetErrors();
             this.loginService.login(this.model)
-                .subscribe(isValid => {
-                if (isValid) {
+                .subscribe(resp => {
+                if (resp === this.model.username) {
                     sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
                     
                     console.log('Login token: ' +   sessionStorage.getItem('token'));
                     console.log("Login username:" + this.model.username);
 
-                    this.isLoginSuccess = 1;
+                     this.resetErrors();
+                     this.loading = false;
                     //this.getUserName();
                      sessionStorage.setItem('currentusername', this.model.username);
                     this.router.navigate([this.selectedSubsystem.name]);
                 } else {
                     //authentication failed
-                    this.isLoginSuccess = 0; 
-                    console.log("Authentication failed");
+                    this.loading = false;
+                     this.loginError = resp; 
+                    console.log(resp);
                 }
-            });
-            }
+            },
+                (error) => {
+                    this.loading = false;
+                    this.serverError = "Server is currently unavailable. Please try again later."
+                    console.log(error);
+                }
+            );
+        }
     }
 
    public onValueChanged(selected: any): void {

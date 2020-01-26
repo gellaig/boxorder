@@ -4,6 +4,7 @@
 					<span class="login100-form-title p-b-33">
 						Sign in
 					</span>
+					 <div class="alert alert-danger" *ngIf="serverError">{{serverError}}</div>
 
 					<div class="wrap-input100 validate-input" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
                         <input class="input100" type="text" name="username" placeholder="Username" [(ngModel)]="model.username" #username="ngModel" required />
@@ -19,7 +20,7 @@
                     <br>
                     <select class="form-control" id="selsub" name="selsub" [(ngModel)]="selectedSubsystem" (ngModelChange)="onValueChanged($event)">
                             <option [ngValue]="undefined" disabled>Select subsystem..</option>
-                            <option *ngFor="let subsystem of subsystems" [ngValue]="subsystem">{{ subsystem.name }} {{ subsystem.version }}</option>
+                            <option *ngFor="let subsystem of subsystems" [ngValue]="subsystem">{{ subsystem.name }} v{{ subsystem.version }}</option>
                         </select>
                     <br>
                     <div class="alert alert-danger" *ngIf="f.submitted && !username.valid">Username is required</div>
@@ -28,10 +29,11 @@
 
 					<div class="container-login100-form-btn m-t-20">
 						<button class="login100-form-btn">
-							Login
+							<div class="loader" *ngIf="loading"></div>
+							<div *ngIf="!loading">Login</div>
 						</button>
                     </div>
-                    <div class="alert alert-danger" *ngIf="isLoginSuccess <= 0">Login failed</div>
+                    <div class="alert alert-danger" *ngIf="loginError">{{loginError}}</div>
 					<div class="text-center">
 						<span class="txt1">
 							Create an account?
