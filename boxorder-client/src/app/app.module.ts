@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, Injectable} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { routing }        from './app.routing';
 
 import {AppComponent} from './app.component';
@@ -16,6 +16,17 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register/register.component';
 import { RouterModule } from '@angular/router';
 import { TestComponent } from './test/test.component';
+
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 @NgModule({
     declarations: [
@@ -37,7 +48,7 @@ import { TestComponent } from './test/test.component';
         routing
     ],
     exports: [RouterModule],
-    providers: [EcommerceService, LoginService],
+    providers: [EcommerceService, LoginService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule {

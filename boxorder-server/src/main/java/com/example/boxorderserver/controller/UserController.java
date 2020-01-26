@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,13 +35,13 @@ public class UserController {
 	
 	@RequestMapping("/login")
 	public String login(@RequestBody User user) {
-		Optional<User> savedUser = userService.getUserByName(user.getUserName());
+		Optional<UserDetails> savedUser = userService.getUserByName(user.getUserName());
 		
 		//System.out.println(user.toString());
 		//savedUser.ifPresent(u -> System.out.println(u.toString()));
 		
 		if (savedUser.isPresent()) {
-			return !user.getUserName().equals(savedUser.get().getUserName())
+			return !user.getUserName().equals(savedUser.get().getUsername())
 					|| !user.getPassword().equals(savedUser.get().getPassword())
 				   ? "Wrong username or password" : user.getUserName() ;	
 		} 
@@ -63,18 +64,18 @@ public class UserController {
 	}
 	
 	 @GetMapping("/subsystem")
-	    public @NotNull Iterable<Subsystem> getSubsystems() {
+	 public @NotNull Iterable<Subsystem> getSubsystems() {
 	        return subsystemService.getAllSubsystems();
 	    }
 	 
 	 @PostMapping("/register")
 	 public String registerUser(@RequestBody User user) {
-		 Optional<User> savedUser = userService.getUserByName(user.getUserName());
-		 
+		 Optional<UserDetails> existing = userService.getUserByName(user.getUserName());
+
 		 //System.out.println(user.toString());
 		 //savedUser.ifPresent(u -> System.out.println(u.toString()));
 		 
-		if ( savedUser.isPresent())
+		if ( existing.isPresent())
 			return "Username already exists.";
 
 	     return userService.save(user).getUserName();

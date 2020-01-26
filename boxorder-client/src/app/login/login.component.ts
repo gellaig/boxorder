@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {LoginService} from './services/LoginService';
 
 import { Subsystem } from './models/subsystem.model';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private loginService: LoginService
     ) {
+        this.loginService.authenticate(undefined, undefined);
      }
 
     ngOnInit() {
@@ -54,8 +56,14 @@ export class LoginComponent implements OnInit {
             this.loginService.getLoginUser()
                .subscribe(principal => {
                 let userName = principal['name'];
-                 sessionStorage.setItem('currentusername', btoa(userName));
-                console.log("currentusername: " + userName);
+                
+                if (userName) {
+                    sessionStorage.setItem('currentusername', btoa(userName));
+                    console.log("currentusername: " + userName);
+                    this.router.navigate([this.selectedSubsystem.name]);
+                } else {
+                    console.log("not authenticated: " + userName);
+                } 
             },
             error => {
                 console.log("getuser error:");
@@ -64,7 +72,15 @@ export class LoginComponent implements OnInit {
         );
     }
 
-   login() {
+
+    login() {
+        this.loginService.authenticate(this.model, () => {
+           this.router.navigate([this.selectedSubsystem.name]);
+        });
+        return false;
+    }
+
+   login2() {
         if (this.selectedSubsystem) {
             this.loading = true;
             this.resetErrors();
@@ -76,11 +92,12 @@ export class LoginComponent implements OnInit {
                     console.log('Login token: ' +   sessionStorage.getItem('token'));
                     console.log("Login username:" + this.model.username);
 
-                     this.resetErrors();
-                     this.loading = false;
-                    //this.getUserName();
-                     sessionStorage.setItem('currentusername', this.model.username);
-                    this.router.navigate([this.selectedSubsystem.name]);
+                    this.resetErrors();
+                    this.getUserName();
+                    this.loading = false;
+
+                     //sessionStorage.setItem('currentusername', this.model.username);
+                    //this.router.navigate([this.selectedSubsystem.name]);
                 } else {
                     //authentication failed
                     this.loading = false;

@@ -18,12 +18,30 @@ export class LoginService {
     }
 
      getLoginUser(): Observable<Object>{
-        let headers: HttpHeaders = new HttpHeaders({
-            'Authorization': 'Basic ' + sessionStorage.getItem('token')
+        const headers = new HttpHeaders({
+            authorization : 'Basic ' + sessionStorage.getItem('token')
         });
 
         let options = { headers: headers };
-        return this.http.post<Observable<Object>>(this.userUrl, {}, options);
+        return this.http.get(this.userUrl, options);
+    }
+
+    authenticate(credentials, callback) {
+
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+        } : {});
+
+        this.http.get(this.userUrl, {headers: headers}).subscribe(response => {
+            console.log('auth: '+ response['name']);
+            if (response['name']) {
+                sessionStorage.setItem('currentusername', response['name']);
+            } else {
+                sessionStorage.setItem('currentusername', '');
+            }
+            return callback && callback();
+        });
+
     }
 
     login(model : any): Observable<string> {

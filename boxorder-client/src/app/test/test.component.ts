@@ -21,7 +21,7 @@ export class TestComponent implements OnInit {
       this.currentUser =  sessionStorage.getItem('currentusername');
 
       if (!this.currentUser){
-            this.logout();
+            this.forwardToLogin();
          }
     }
 
@@ -29,11 +29,20 @@ export class TestComponent implements OnInit {
         this.collapsed = !this.collapsed;
     }
 
-    
+    forwardToLogin() {
+      sessionStorage.setItem('token', '');
+      sessionStorage.setItem('currentusername', '');
+      this.router.navigate(['']);
+    }
+
     logout() {
-        sessionStorage.setItem('token', '');
-        sessionStorage.setItem('currentusername', '');
-        this.router.navigate(['']);
+        this.http.post('logout', {}).subscribe(() => {
+          this.forwardToLogin();
+        },
+          (error) => {
+            console.log(error);
+          }
+        );   
     }
 
 }
