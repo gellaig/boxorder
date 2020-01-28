@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	public User create(User user) {
 
 		Optional<User> existing = UserRepository.findById(user.getUsername());
-		existing.ifPresent(it-> {throw new IllegalArgumentException("user already exists: " + it.getUsername());});
+		existing.ifPresent(it-> {throw new IllegalArgumentException("Username already exists");});
 
 		String hash = encoder.encode(user.getPassword());
 		user.setPassword(hash);

@@ -22,26 +22,12 @@ export class LoginService {
          return this.http.get(this.subsystemUrl);
     }
 
-    authenticate(credentials, callback) {
+    authenticate(credentials): Observable<Object> {
         const headers = new HttpHeaders(credentials ? {
             authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
         } : {});
 		
-        this.http.get(this.userUrl, {headers: headers}).subscribe(response => {
-            console.log('auth: '+ response['name']);
-            if (response['name']) {
-               // sessionStorage.setItem('currentusername', response['name']);
-			   this.authUser = response['name'];
-            } else {
-                this.authUser = null;
-            }
-            return callback && callback();
-        },
-		(error) => {
-					this.authUser = null;
-                    console.log('auth error');
-                    console.log(error);
-                });
+       return this.http.get(this.userUrl, {headers: headers});
 
     }
 

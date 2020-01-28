@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
     model: any = {};  
     subsystems: Subsystem[] = [];
     selectedSubsystem : Subsystem;
-    loginError : any;
     serverError : string;
     loading : boolean;
 
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private loginService: LoginService
     ) {
-       // this.loginService.authenticate(undefined, undefined);
+       // this.loginService.authenticate(undefined);
      }
 
     ngOnInit() {
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit {
     }
 
     resetErrors(){
-        this.loginError = null;
         this.serverError = null;
     }
 
@@ -53,45 +51,42 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.loginService.authenticate(this.model, () => {
-			 console.log('login success');
-           this.router.navigate([this.selectedSubsystem.name]);
-        });
-        return false;
-    }
-
-   login2() {
-        if (this.selectedSubsystem) {
-            this.loading = true;
+		if (this.selectedSubsystem) {
+			this.loading = true;
             this.resetErrors();
-            this.loginService.login(this.model)
-                .subscribe(resp => {
-                if (resp === this.model.username) {
-                    sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
-                    
-                    console.log('Login token: ' +   sessionStorage.getItem('token'));
-                    console.log("Login username:" + this.model.username);
+			this.loginService.authenticate(this.model).subscribe(response => {
+            if (response['name']) {
+			   console.log('login success');
+			  
+			   this.loginService.authUser = response['name'];
+			   this.resetErrors();
+			   this.loading = false;
+			   
+			   this.router.navigate([this.selectedSubsystem.name]);
+            } else {
+                this.loginService.authUser = null;
+				//login failed
+                console.log(response);
+                this.serverError = JSON.stringify(response);
+                this.loading = false;
+            }
+        },
+		(error) => {
+                    console.log('auth error');
+                    //console.log(error);
+					
+					if (error.status == 0){
+						this.serverError = "Server is currently unavailable. Please try again later.";
+					}else {
+						this.serverError = "Wrong username or password";
+					}
+					
+					this.loginService.authUser = null;
+					this.loading = false;
+                });
+		}
+	}
 
-                    this.resetErrors();
-                    this.loading = false;
-
-                     //sessionStorage.setItem('currentusername', this.model.username);
-                    //this.router.navigate([this.selectedSubsystem.name]);
-                } else {
-                    //authentication failed
-                    this.loading = false;
-                     this.loginError = resp; 
-                    console.log(resp);
-                }
-            },
-                (error) => {
-                    this.loading = false;
-                    this.serverError = "Server is currently unavailable. Please try again later."
-                    console.log(error);
-                }
-            );
-        }
-    }
 
    public onValueChanged(selected: any): void {
         this.selectedSubsystem = selected;

@@ -10,7 +10,6 @@ import {LoginService} from '../services/LoginService';
 export class RegisterComponent implements OnInit {
 
   model: any = {};  
-  registerError : any;
   serverError : string;
   loading : boolean;
 
@@ -25,7 +24,6 @@ export class RegisterComponent implements OnInit {
   }
 
   resetErrors(){
-          this.registerError = null;
           this.serverError = null;
   }
 
@@ -45,13 +43,18 @@ export class RegisterComponent implements OnInit {
                 } else {
                     //register failed
                     console.log(resp);
-                    this.registerError = resp;
+                    this.serverError = resp;
                     this.loading = false;
                 }
             },
                 (error) => {
-                    this.serverError = "Server is currently unavailable. Please try again later."
-                    console.log(error);
+					//console.log(error);
+					if (error.status == 0){
+						this.serverError = "Server is currently unavailable. Please try again later.";
+					}else {
+						let errMsg = JSON.parse(error.error);
+						this.serverError = errMsg.message;
+					}
                     this.loading = false;
                 }
             );
