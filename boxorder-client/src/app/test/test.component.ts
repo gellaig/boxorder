@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {LoginService} from '../login/services/LoginService';
 
 @Component({
   selector: 'app-test',
@@ -10,39 +11,24 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class TestComponent implements OnInit {
 
    private collapsed = true;
+   greeting = {}; 
    currentUser : string;
 
      constructor(private http: HttpClient,
-     public router: Router) {
-
+     public router: Router,
+	 private loginService: LoginService) {
+			http.get('http://localhost:8080/resource').subscribe(data => this.greeting = data);
        }
 
     ngOnInit() {
-      this.currentUser =  sessionStorage.getItem('currentusername');
-
-      if (!this.currentUser){
-            this.forwardToLogin();
+		console.log('authuser:' +this.loginService.authUser);
+      if (!this.loginService.authUser){
+            this.loginService.logout();
          }
     }
 
     toggleCollapsed(): void {
         this.collapsed = !this.collapsed;
-    }
-
-    forwardToLogin() {
-      sessionStorage.setItem('token', '');
-      sessionStorage.setItem('currentusername', '');
-      this.router.navigate(['']);
-    }
-
-    logout() {
-        this.http.post('logout', {}).subscribe(() => {
-          this.forwardToLogin();
-        },
-          (error) => {
-            console.log(error);
-          }
-        );   
-    }
+    } 
 
 }

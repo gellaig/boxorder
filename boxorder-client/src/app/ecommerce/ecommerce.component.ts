@@ -8,6 +8,7 @@ import {ProductsComponent} from "./products/products.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {BoxComponent} from "./box/box.component";
+import {LoginService} from '../login/services/LoginService';
 
 @Component({
     selector: 'app-ecommerce',
@@ -35,15 +36,16 @@ export class EcommerceComponent implements OnInit {
 
 
      constructor(private http: HttpClient,
-     private router: Router) {
+     private router: Router,
+	 private loginService: LoginService) {
 
        }
 
     ngOnInit() {
-         this.currentUser =  sessionStorage.getItem('currentusername');
-
-         if (!this.currentUser){
-            this.logout();
+		//this.loginService.authenticate(undefined, undefined);
+		console.log('authuser:' +this.loginService.authUser);
+         if (!this.loginService.authUser){
+            this.loginService.logout();
          }
     }
 
@@ -79,12 +81,6 @@ export class EcommerceComponent implements OnInit {
 	
 	showCart(){
 		this.shoppingCartC.showCart = !this.shoppingCartC.showCart;
-    }
-    
-    logout() {
-        sessionStorage.setItem('token', '');
-        sessionStorage.setItem('currentusername', '');
-        this.router.navigate(['']);
     }
 
 }

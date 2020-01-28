@@ -14,5 +14,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	//@Query("SELECT u from user u where u.userName = :name")
 	//public Optional<User> findByUserName(@Param("name") String name);
 	
-	public Optional<UserDetails> findByUserName(@Param("name") String name);
+	public Optional<User> findByUserName(@Param("name") String name);
 }

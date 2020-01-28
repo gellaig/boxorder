@@ -1,7 +1,9 @@
 package com.example.boxorderserver;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 import com.example.boxorderserver.model.Location;
@@ -16,6 +18,7 @@ import com.example.boxorderserver.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 
 @SpringBootApplication
+//@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class BoxorderServerApplication {
 
 	public static void main(String[] args) {

@@ -17,7 +17,7 @@ public interface UserService {
 
     Optional<User> getUser(@Min(value = 1L, message = "Invalid User ID.") long id);
     
-    Optional<UserDetails> getUserByName(String userName);
+    Optional<User> getUserByName(String userName);
     
     User save(User user);
 }

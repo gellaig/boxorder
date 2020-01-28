@@ -2,7 +2,10 @@ package com.example.boxorderserver.controller;
 
 import java.security.Principal;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.boxorderserver.model.Location;
@@ -33,15 +37,24 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@GetMapping("/resource")
+    @ResponseBody
+    public Map<String, Object> home() {
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("id", UUID.randomUUID().toString());
+        model.put("content", "Hello World");
+        return model;
+    } 
+	
 	@RequestMapping("/login")
 	public String login(@RequestBody User user) {
-		Optional<UserDetails> savedUser = userService.getUserByName(user.getUserName());
+		Optional<User> savedUser = userService.getUserByName(user.getUserName());
 		
 		//System.out.println(user.toString());
 		//savedUser.ifPresent(u -> System.out.println(u.toString()));
 		
 		if (savedUser.isPresent()) {
-			return !user.getUserName().equals(savedUser.get().getUsername())
+			return !user.getUserName().equals(savedUser.get().getUserName())
 					|| !user.getPassword().equals(savedUser.get().getPassword())
 				   ? "Wrong username or password" : user.getUserName() ;	
 		} 
@@ -57,11 +70,11 @@ public class UserController {
 		return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
 	}
 */	
-	@RequestMapping("/user")
-	public Principal user(Principal principal) {
-		System.out.println(principal.toString());
-		return principal;
-	}
+	@GetMapping("/user")
+    @ResponseBody
+    public Principal user(Principal user) {
+        return user;
+    }
 	
 	 @GetMapping("/subsystem")
 	 public @NotNull Iterable<Subsystem> getSubsystems() {
@@ -70,7 +83,7 @@ public class UserController {
 	 
 	 @PostMapping("/register")
 	 public String registerUser(@RequestBody User user) {
-		 Optional<UserDetails> existing = userService.getUserByName(user.getUserName());
+		 Optional<User> existing = userService.getUserByName(user.getUserName());
 
 		 //System.out.println(user.toString());
 		 //savedUser.ifPresent(u -> System.out.println(u.toString()));

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductOrder} from "../models/product-order.model";
 import {EcommerceService} from "../services/EcommerceService";
+import {LoginService} from '../../login/services/LoginService';
 import {Subscription} from "rxjs/internal/Subscription";
 import {ProductOrders} from "../models/product-orders.model";
 import {Product} from "../models/product.model";
@@ -18,12 +19,13 @@ export class ProductsComponent implements OnInit {
     sub: Subscription;
     productSelected: boolean = false;
 
-    constructor(private ecommerceService: EcommerceService) {
+    constructor(private ecommerceService: EcommerceService,
+				private loginService: LoginService) {
     }
 
     ngOnInit() {
         this.productOrders = [];
-       // this.loadProducts();
+        this.loadProducts();
         this.loadOrders();
     }
 

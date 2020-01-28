@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.Order;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +15,10 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import com.example.boxorderserver.service.security.MyUserDetailsService;
+//import com.example.boxorderserver.service.security.MyUserDetailsService;
 
 @Configuration
+//@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -25,11 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
             .httpBasic().and()
             .authorizeRequests()
-                .antMatchers("/login", "/user", "/register", "/subsystem", "/h2-console**").permitAll()
+                .antMatchers("/api/**", "/subsystem", "/register", "/login", "/h2-console**").permitAll()
+              //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
                 .anyRequest().authenticated()
                 .and()
-            .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+            .csrf().disable();
+                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         // @formatter:on
     }
 	

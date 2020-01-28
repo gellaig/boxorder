@@ -24,11 +24,11 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private loginService: LoginService
     ) {
-        this.loginService.authenticate(undefined, undefined);
+       // this.loginService.authenticate(undefined, undefined);
      }
 
     ngOnInit() {
-        sessionStorage.setItem('token', '');
+        console.log('authuser:' +this.loginService.authUser);
         this.loadSubsystems();
         this.loading = false;
     }
@@ -52,29 +52,9 @@ export class LoginComponent implements OnInit {
             );
     }
 
-    getUserName() {
-            this.loginService.getLoginUser()
-               .subscribe(principal => {
-                let userName = principal['name'];
-                
-                if (userName) {
-                    sessionStorage.setItem('currentusername', btoa(userName));
-                    console.log("currentusername: " + userName);
-                    this.router.navigate([this.selectedSubsystem.name]);
-                } else {
-                    console.log("not authenticated: " + userName);
-                } 
-            },
-            error => {
-                console.log("getuser error:");
-                console.log(error);
-            }
-        );
-    }
-
-
     login() {
         this.loginService.authenticate(this.model, () => {
+			 console.log('login success');
            this.router.navigate([this.selectedSubsystem.name]);
         });
         return false;
@@ -93,7 +73,6 @@ export class LoginComponent implements OnInit {
                     console.log("Login username:" + this.model.username);
 
                     this.resetErrors();
-                    this.getUserName();
                     this.loading = false;
 
                      //sessionStorage.setItem('currentusername', this.model.username);
