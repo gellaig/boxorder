@@ -12,12 +12,8 @@ import javax.validation.constraints.NotNull;
 
 @Validated
 public interface UserService {
-
-    @NotNull Iterable<User> getAllUsers();
-
-    Optional<User> getUser(@Min(value = 1L, message = "Invalid User ID.") long id);
-    
-    Optional<User> getUserByName(String userName);
     
     User save(User user);
+    User create(User user);
+
 }

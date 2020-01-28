@@ -8,9 +8,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,52 +48,19 @@ public class UserController {
         return model;
     } 
 	
-	@RequestMapping("/login")
-	public String login(@RequestBody User user) {
-		Optional<User> savedUser = userService.getUserByName(user.getUserName());
-		
-		//System.out.println(user.toString());
-		//savedUser.ifPresent(u -> System.out.println(u.toString()));
-		
-		if (savedUser.isPresent()) {
-			return !user.getUserName().equals(savedUser.get().getUserName())
-					|| !user.getPassword().equals(savedUser.get().getPassword())
-				   ? "Wrong username or password" : user.getUserName() ;	
-		} 
-		else {
-			return "Username not found";
-		}
-
-	}
-/*
-	@RequestMapping("/user")
-	public Principal user(HttpServletRequest request) {
-		String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
-		return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
-	}
-*/	
-	@GetMapping("/user")
-    @ResponseBody
-    public Principal user(Principal user) {
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+    public Principal getUser(Principal user) {
         return user;
     }
 	
 	 @GetMapping("/subsystem")
 	 public @NotNull Iterable<Subsystem> getSubsystems() {
 	        return subsystemService.getAllSubsystems();
-	    }
+	 }
 	 
 	 @PostMapping("/register")
-	 public String registerUser(@RequestBody User user) {
-		 Optional<User> existing = userService.getUserByName(user.getUserName());
-
-		 //System.out.println(user.toString());
-		 //savedUser.ifPresent(u -> System.out.println(u.toString()));
-		 
-		if ( existing.isPresent())
-			return "Username already exists.";
-
-	     return userService.save(user).getUserName();
+	 public String registerUser(@Valid @RequestBody User user) {
+		 return userService.create(user).getUsername();
 	 }
 
 }

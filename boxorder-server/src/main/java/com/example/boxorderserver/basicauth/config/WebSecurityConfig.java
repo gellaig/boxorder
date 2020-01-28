@@ -15,40 +15,27 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-//import com.example.boxorderserver.service.security.MyUserDetailsService;
+import com.example.boxorderserver.service.security.MyUserDetailsService;
 
 @Configuration
 //@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http.cors().and()
-            .httpBasic().and()
-            .authorizeRequests()
-                .antMatchers("/api/**", "/subsystem", "/register", "/login", "/h2-console**").permitAll()
-              //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
-                .anyRequest().authenticated()
-                .and()
-            .csrf().disable();
-                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        // @formatter:on
-    }
-	
-/*
-    @Autowired
+	@Autowired
     private MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.cors().and()
-        .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login", "/user", "/register", "/subsystem", "/h2-console**").permitAll()
-                .anyRequest().authenticated();
+    	 http.cors().and()
+         .httpBasic().and()
+         .authorizeRequests()
+             .antMatchers("/api/**", "/subsystem", "/register", "/login", "/h2-console**").permitAll()
+           //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
+             .anyRequest().authenticated()
+             .and()
+         .csrf().disable();
         // @formatter:on
     }
 
@@ -63,5 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    */
+
+	
 }

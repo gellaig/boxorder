@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import com.example.boxorderserver.model.Location;
 import com.example.boxorderserver.model.Product;
@@ -55,7 +56,7 @@ public class BoxorderServerApplication {
 	       subsystemService.save(new Subsystem(1L, "ecommerce", "0.0.1"));
 	       subsystemService.save(new Subsystem(2L, "test", "0.0.1"));
 	      	
-	       userService.save(new User(1L, "user","123"));
+	       userService.create(new User("user","123"));
         };
     }
 }
