@@ -39,9 +39,7 @@ export class BoxComponent implements OnInit {
      this.ecommerceService.getOrdersByLocation(this.selectedLocation.id)
             .subscribe(
                 (orders: any[]) => {
-					console.log(orders);
                     this.ordersAtLocation = orders;
-					console.log(this.ordersAtLocation);
                 },
                 (error) => console.log(error)
             ); 
@@ -57,7 +55,6 @@ export class BoxComponent implements OnInit {
     this.ecommerceService.deleteOrder(id)
       .subscribe(
         data => {
-          console.log(data);
           this.showBoxContent();
         },
         error => console.log(error));

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {LoginService} from '../login/services/LoginService';
+import { SubsystemComponent } from '../subsystem/subsystem.component';
 
 @Component({
   selector: 'app-test',
@@ -14,9 +15,12 @@ export class TestComponent implements OnInit {
    greeting = {}; 
    currentUser : string;
 
+    @ViewChild('subsystemC', {static: true})
+    subsystemC: SubsystemComponent;
+
      constructor(private http: HttpClient,
      public router: Router,
-	 private loginService: LoginService) {
+	   public loginService: LoginService) {
 			http.get('http://localhost:8080/resource').subscribe(data => this.greeting = data);
        }
 
@@ -29,6 +33,6 @@ export class TestComponent implements OnInit {
 
     toggleCollapsed(): void {
         this.collapsed = !this.collapsed;
-    } 
+    }
 
 }

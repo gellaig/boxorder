@@ -18,14 +18,11 @@
 						<span class="focus-input100-2"></span>
                     </div>
                     <br>
-                    <select class="form-control" id="selsub" name="selsub" [(ngModel)]="selectedSubsystem" (click)="loadSubsystems()" (ngModelChange)="onValueChanged($event)">
-                            <option [ngValue]="undefined" disabled>Select subsystem..</option>
-                            <option *ngFor="let subsystem of subsystems" [ngValue]="subsystem">{{ subsystem.name }} v{{ subsystem.version }}</option>
-                        </select>
+                   <app-subsystem #subsystemC ></app-subsystem>
                     <br>
                     <div class="alert alert-danger" *ngIf="f.submitted && !username.valid">Username is required</div>
                     <div class="alert alert-danger" *ngIf="f.submitted && !password.valid">Password is required</div>
-                    <div class="alert alert-danger" *ngIf="f.submitted && !selectedSubsystem">Subsystem is required</div>
+                    <div class="alert alert-danger" *ngIf="f.submitted && !subsystemC.selectedSubsystem">Subsystem is required</div>
 
 					<div class="container-login100-form-btn m-t-20">
 						<button class="login100-form-btn">

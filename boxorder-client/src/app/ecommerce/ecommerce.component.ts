@@ -9,6 +9,7 @@ import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {BoxComponent} from "./box/box.component";
 import {LoginService} from '../login/services/LoginService';
+import { SubsystemComponent } from '../subsystem/subsystem.component';
 
 @Component({
     selector: 'app-ecommerce',
@@ -25,6 +26,9 @@ export class EcommerceComponent implements OnInit {
     @ViewChild('productsC', {static: false})
     productsC: ProductsComponent;
 
+    @ViewChild('subsystemC', {static: true})
+    subsystemC: SubsystemComponent;
+
       @ViewChild('shoppingCartC', {static: true})
     shoppingCartC: ShoppingCartComponent;
 
@@ -37,7 +41,7 @@ export class EcommerceComponent implements OnInit {
 
      constructor(private http: HttpClient,
      private router: Router,
-	 private loginService: LoginService) {
+	 public loginService: LoginService) {
 
        }
 

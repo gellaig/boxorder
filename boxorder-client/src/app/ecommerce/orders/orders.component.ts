@@ -48,7 +48,7 @@ export class OrdersComponent implements OnInit {
         this.paid = true;
         this.orders.location = this.selectedLocation;
 		this.orders.username = this.loginService.authUser;
-		console.log('order user:' +this.orders.username);
+		//console.log('order user:' +this.orders.username);
         this.ecommerceService.saveOrder(this.orders).subscribe();
         this.selectedLocation = null;
     }

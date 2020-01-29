@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {LoginService} from './services/LoginService';
 
 import { Subsystem } from './models/subsystem.model';
 import { HttpHeaders } from '@angular/common/http';
+import { SubsystemComponent } from '../subsystem/subsystem.component';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,12 @@ import { HttpHeaders } from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
     model: any = {};  
-    subsystems: Subsystem[] = [];
-    selectedSubsystem : Subsystem;
     serverError : string;
     loading : boolean;
+
+     @ViewChild('subsystemC', {static: true})
+    subsystemC: SubsystemComponent;
+
 
     constructor(
         private router: Router,
@@ -37,23 +40,11 @@ export class LoginComponent implements OnInit {
     }
 
     loadSubsystems() {
-		if ( this.subsystems.length <= 0)  {
-			this.loginService.getSubsystems()
-            .subscribe(
-                (subsystems: any[]) => {
-                    this.subsystems = subsystems;
-                    this.serverError = null;
-                },
-                (error) => {
-                    this.serverError = "Server is currently unavailable. Please try again later."
-                    console.log(error);
-                }
-            );
-		}
+		this.subsystemC.loadSubsystems(this.serverError);
     }
 
     login() {
-		if (this.selectedSubsystem) {
+		if (this.subsystemC.selectedSubsystem) {
 			this.loading = true;
             this.resetErrors();
 			this.loginService.authenticate(this.model).subscribe(response => {
@@ -64,7 +55,7 @@ export class LoginComponent implements OnInit {
 			   this.resetErrors();
 			   this.loading = false;
 			   
-			   this.router.navigate([this.selectedSubsystem.name]);
+			   this.router.navigate([this.subsystemC.selectedSubsystem.name]);
             } else {
                 this.loginService.authUser = null;
 				//login failed
@@ -88,9 +79,4 @@ export class LoginComponent implements OnInit {
                 });
 		}
 	}
-
-
-   public onValueChanged(selected: any): void {
-        this.selectedSubsystem = selected;
-    }
 }
