@@ -3,6 +3,7 @@ import {ProductOrders} from "../models/product-orders.model";
 import {Location} from "../models/location.model";
 import {Subscription} from "rxjs/internal/Subscription";
 import {EcommerceService} from "../services/EcommerceService";
+import {LoginService} from '../../login/services/LoginService';
 
 @Component({
     selector: 'app-orders',
@@ -17,18 +18,21 @@ export class OrdersComponent implements OnInit {
     selectedLocation : Location;
     sub: Subscription;
 
-    constructor(private ecommerceService: EcommerceService) {
+    constructor(private ecommerceService: EcommerceService,
+				private loginService: LoginService) {
         this.orders = this.ecommerceService.ProductOrders;
     }  
 
     loadLocations() {
-        this.ecommerceService.getAllLocations()
+        if ( this.locations.length <= 0) {
+            this.ecommerceService.getAllLocations()
             .subscribe(
                 (locations: any[]) => {
                     this.locations = locations;
                 },
                 (error) => console.log(error)
             );
+        }
     }
 
     ngOnInit() {
@@ -37,12 +41,14 @@ export class OrdersComponent implements OnInit {
             this.orders = this.ecommerceService.ProductOrders;
         });
         this.loadTotal();
-        this.loadLocations();
+       // this.loadLocations();
     }
 
     pay() {
         this.paid = true;
         this.orders.location = this.selectedLocation;
+		this.orders.username = this.loginService.authUser;
+		console.log('order user:' +this.orders.username);
         this.ecommerceService.saveOrder(this.orders).subscribe();
         this.selectedLocation = null;
     }

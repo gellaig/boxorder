@@ -1,6 +1,6 @@
 <h2 class="text-center">BOXES</h2>
  <label for="sel1">Select a box:</label>
-<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (ngModelChange)="onValueChanged($event)">
+<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (click)="loadLocations()" (ngModelChange)="onValueChanged($event)">
          <option [ngValue]="undefined" disabled>Select box..</option>
         <option *ngFor="let location of locations" [ngValue]="location">{{ location.id }} - {{ location.name }}</option>
       </select>
@@ -12,6 +12,7 @@
        <div class="col-sm">
 		OrderId: {{ order.id }} <br>
         Status: {{ order.status }} <br>
+		User: {{order.username}}<br>
         Location: {{order.location.name}}<br>
         DateCreated: {{order.dateCreated}}<br>
         TotalPrice: {{order.totalOrderPrice}}<br>
@@ -25,7 +26,7 @@
         </ul>
 		</div>
 		<div class="col-1 padding-0">
-		<button class="btn btn-danger btn-block"
+		<button class="btn btn-danger btn-block" [disabled]="order.username != loginService.authUser"
           (click)="deleteOrder(order.id)"><i class="fa fa-trash fa-lg"></i>
         </button>
 		</div>

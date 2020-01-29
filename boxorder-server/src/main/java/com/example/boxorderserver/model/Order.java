@@ -32,6 +32,9 @@ public class Order {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
     
+  
+    private String username;
+    
     @Transient
     public Double getTotalOrderPrice() {
         double sum = 0D;
@@ -49,6 +52,14 @@ public class Order {
     
     public void setLocation(Location location) {
         this.location = location;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     public Long getId() {

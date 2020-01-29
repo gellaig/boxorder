@@ -3,6 +3,7 @@ import {EcommerceService} from "../services/EcommerceService";
 import {Subscription} from "rxjs/internal/Subscription";
 import { Order } from '../models/order.model';
 import { Location } from '../models/location.model';
+import {LoginService} from '../../login/services/LoginService';
 
 @Component({
   selector: 'app-box',
@@ -14,10 +15,12 @@ export class BoxComponent implements OnInit {
     locations: Location[] = [];
     selectedLocation : Location;
 
-    constructor(private ecommerceService: EcommerceService) {
+    constructor(private ecommerceService: EcommerceService,
+                public loginService: LoginService) {
     }
 
     loadLocations() {
+      if ( this.locations.length <= 0) {
         this.ecommerceService.getAllLocations()
             .subscribe(
                 (locations: any[]) => {
@@ -25,17 +28,20 @@ export class BoxComponent implements OnInit {
                 },
                 (error) => console.log(error)
             );
+      }
     }
 
   ngOnInit() {
-     this.loadLocations();
+    // this.loadLocations();
   }
 
   showBoxContent() {
      this.ecommerceService.getOrdersByLocation(this.selectedLocation.id)
             .subscribe(
                 (orders: any[]) => {
+					console.log(orders);
                     this.ordersAtLocation = orders;
+					console.log(this.ordersAtLocation);
                 },
                 (error) => console.log(error)
             ); 

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         console.log('authuser:' +this.loginService.authUser);
-        this.loadSubsystems();
+       // this.loadSubsystems();
         this.loading = false;
     }
 
@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
     }
 
     loadSubsystems() {
-        this.loginService.getSubsystems()
+		if ( this.subsystems.length <= 0)  {
+			this.loginService.getSubsystems()
             .subscribe(
                 (subsystems: any[]) => {
                     this.subsystems = subsystems;
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
                     console.log(error);
                 }
             );
+		}
     }
 
     login() {

@@ -7,7 +7,7 @@
 <h3 class="text-right">Total amount: ${{ total }}</h3>
  
  <label for="sel1">Select location:</label>
-<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (ngModelChange)="onValueChanged($event)">
+<select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (click)="loadLocations()" (ngModelChange)="onValueChanged($event)">
          <option [ngValue]="undefined" disabled>Select location..</option>
         <option *ngFor="let location of locations" [ngValue]="location">{{ location.id }} - {{ location.name }}</option>
       </select>

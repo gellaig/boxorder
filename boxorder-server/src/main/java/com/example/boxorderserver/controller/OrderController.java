@@ -9,7 +9,9 @@ import com.example.boxorderserver.model.OrderStatus;
 import com.example.boxorderserver.service.OrderProductService;
 import com.example.boxorderserver.service.OrderService;
 import com.example.boxorderserver.service.ProductService;
+import com.example.boxorderserver.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,15 +33,14 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class OrderController {
 
+	@Autowired
     ProductService productService;
+	
+	@Autowired
     OrderService orderService;
+	
+	@Autowired
     OrderProductService orderProductService;
-
-    public OrderController(ProductService productService, OrderService orderService, OrderProductService orderProductService) {
-        this.productService = productService;
-        this.orderService = orderService;
-        this.orderProductService = orderProductService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -57,10 +58,12 @@ public class OrderController {
     public ResponseEntity<Order> create(@RequestBody OrderForm form) {
         List<OrderProductDto> formDtos = form.getProductOrders();
         Location formLoc = form.getLocation();
-        
+
         validateProductsExistence(formDtos);
         Order order = new Order();
         order.setStatus(OrderStatus.PAID.name());
+        order.setUsername(form.getUsername());
+        
         order = this.orderService.create(order);
 
         List<OrderProduct> orderProducts = new ArrayList<>();
@@ -117,6 +120,7 @@ public class OrderController {
 
         private List<OrderProductDto> productOrders;
         private Location location;
+        private String username;
         
         public Location getLocation() {
 			return location;
@@ -124,6 +128,16 @@ public class OrderController {
 
 		public void setLocation(Location location) {
 			this.location = location;
+		}
+		
+		
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
 		}
 
 		public List<OrderProductDto> getProductOrders() {

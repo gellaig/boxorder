@@ -18,7 +18,7 @@
 						<span class="focus-input100-2"></span>
                     </div>
                     <br>
-                    <select class="form-control" id="selsub" name="selsub" [(ngModel)]="selectedSubsystem" (ngModelChange)="onValueChanged($event)">
+                    <select class="form-control" id="selsub" name="selsub" [(ngModel)]="selectedSubsystem" (click)="loadSubsystems()" (ngModelChange)="onValueChanged($event)">
                             <option [ngValue]="undefined" disabled>Select subsystem..</option>
                             <option *ngFor="let subsystem of subsystems" [ngValue]="subsystem">{{ subsystem.name }} v{{ subsystem.version }}</option>
                         </select>
