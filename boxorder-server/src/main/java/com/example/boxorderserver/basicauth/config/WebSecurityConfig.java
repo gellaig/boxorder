@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .httpBasic().and()
          .authorizeRequests()
              .antMatchers("/api/**", "/subsystem", "/register", "/login", "/h2-console**").permitAll()
+             .antMatchers("/resource").access("hasRole('USER')")
            //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
              .anyRequest().authenticated()
              .and()

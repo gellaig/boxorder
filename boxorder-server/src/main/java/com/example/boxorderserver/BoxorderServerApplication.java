@@ -9,12 +9,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 import com.example.boxorderserver.model.Location;
 import com.example.boxorderserver.model.Product;
+import com.example.boxorderserver.model.Role;
 import com.example.boxorderserver.model.Subsystem;
 import com.example.boxorderserver.model.User;
 import com.example.boxorderserver.service.LocationService;
 import com.example.boxorderserver.service.ProductService;
+import com.example.boxorderserver.service.RoleService;
 import com.example.boxorderserver.service.SubsystemService;
 import com.example.boxorderserver.service.UserService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
 
@@ -30,7 +35,8 @@ public class BoxorderServerApplication {
     CommandLineRunner runner(ProductService productService, 
     						LocationService locationService, 
     						SubsystemService subsystemService, 
-    						UserService userService) {
+    						UserService userService,
+    						RoleService roleService) {
         return args -> {
 
            productService.save(new Product(1L, "TV Set", 300.00, "https://bit.ly/3av0zeD"));
@@ -56,7 +62,14 @@ public class BoxorderServerApplication {
 	       subsystemService.save(new Subsystem(1L, "ecommerce", "0.0.1"));
 	       subsystemService.save(new Subsystem(2L, "test", "0.0.1"));
 	      	
-	       userService.create(new User("user","123"));
+	       roleService.save(new Role(1L,"ROLE_USER"));
+	       roleService.save(new Role(2L,"ROLE_ADMIN"));
+	       
+	       Set<Role> roles = new HashSet<>();
+	       roles.add(roleService.getRoleById(1L).get());
+	       roles.add(roleService.getRoleById(2L).get());
+	       
+	       userService.create(new User("user","123", roles));
         };
     }
 }

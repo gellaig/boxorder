@@ -18,3 +18,4 @@ public interface UserRepository extends CrudRepository<User, String> {
 	
 	//public Optional<User> findByUserName(@Param("name") String name);
 }
+
