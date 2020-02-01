@@ -83,7 +83,7 @@ public class User implements UserDetails {
 			    for (Role role: roles) {
 			        authorities.add(new SimpleGrantedAuthority(role.getName()));
 			    }
-			     
+
 			    return authorities;
 	}
 

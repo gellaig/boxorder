@@ -46,7 +46,6 @@ export class EcommerceComponent implements OnInit {
        }
 
     ngOnInit() {
-		//this.loginService.authenticate(undefined, undefined);
 		console.log('authuser:' +this.loginService.authUser);
          if (!this.loginService.authUser){
             this.loginService.logout();

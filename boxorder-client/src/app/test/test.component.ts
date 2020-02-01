@@ -21,7 +21,9 @@ export class TestComponent implements OnInit {
      constructor(private http: HttpClient,
      public router: Router,
 	   public loginService: LoginService) {
-			http.get('http://localhost:8080/resource').subscribe(data => this.greeting = data);
+	   
+			 const authHeader = new HttpHeaders( {authorization : sessionStorage.getItem('authToken')});	 
+			http.get('http://localhost:8080/resource', {headers: authHeader}).subscribe(data => this.greeting = data, (error) => this.greeting ={"id": "","content": "You need to be an admin to see this content."});
        }
 
     ngOnInit() {

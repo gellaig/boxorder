@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private loginService: LoginService
     ) {
-       // this.loginService.authenticate(undefined);
      }
 
     ngOnInit() {
@@ -57,7 +56,7 @@ export class LoginComponent implements OnInit {
 			   
 			   this.router.navigate([this.subsystemC.selectedSubsystem.name]);
             } else {
-                this.loginService.authUser = null;
+                this.loginService.resetAuth();
 				//login failed
                 console.log(response);
                 this.serverError = JSON.stringify(response);
@@ -74,7 +73,7 @@ export class LoginComponent implements OnInit {
 						this.serverError = "Wrong username or password";
 					}
 					
-					this.loginService.authUser = null;
+					this.loginService.resetAuth();
 					this.loading = false;
                 });
 		}

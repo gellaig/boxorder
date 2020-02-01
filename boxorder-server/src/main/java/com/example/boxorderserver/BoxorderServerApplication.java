@@ -64,12 +64,21 @@ public class BoxorderServerApplication {
 	      	
 	       roleService.save(new Role(1L,"ROLE_USER"));
 	       roleService.save(new Role(2L,"ROLE_ADMIN"));
+	       roleService.save(new Role(3L,"ROLE_SUBSCRIBER"));
 	       
-	       Set<Role> roles = new HashSet<>();
-	       roles.add(roleService.getRoleById(1L).get());
-	       roles.add(roleService.getRoleById(2L).get());
+	       Set<Role> adminRoles = new HashSet<>();
+	      // adminRoles.add(roleService.getRoleById(1L).get());
+	       adminRoles.add(roleService.getRoleById(2L).get());
 	       
-	       userService.create(new User("user","123", roles));
+	       Set<Role> userRoles = new HashSet<>();
+	       userRoles.add(roleService.getRoleById(1L).get());
+	       
+	       Set<Role> subsRoles = new HashSet<>();
+	       subsRoles.add(roleService.getRoleById(3L).get());
+	       
+	       userService.create(new User("admin","123", adminRoles));
+	       userService.create(new User("user","123", userRoles));
+	       userService.create(new User("subs","123", subsRoles));
         };
     }
 }

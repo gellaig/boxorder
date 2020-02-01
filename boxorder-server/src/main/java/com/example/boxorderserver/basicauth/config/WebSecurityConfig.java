@@ -8,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import com.example.boxorderserver.service.security.MyUserDetailsService;
 @Configuration
 //@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -31,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	 http.cors().and()
          .httpBasic().and()
          .authorizeRequests()
-             .antMatchers("/api/**", "/subsystem", "/register", "/login", "/h2-console**").permitAll()
-             .antMatchers("/resource").access("hasRole('USER')")
+             .antMatchers("/subsystem", "/register", "/login", "/h2-console**").permitAll()
+           //  .antMatchers("/resource").hasRole("ADMIN")
            //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
              .anyRequest().authenticated()
              .and()

@@ -23,11 +23,12 @@ export class LoginService {
     }
 
     authenticate(credentials): Observable<Object> {
-        const headers = new HttpHeaders(credentials ? {
-            authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-        } : {});
+		let authToken = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
+		sessionStorage.setItem('authToken', authToken);
 		
-       return this.http.get(this.userUrl, {headers: headers});
+        const authHeader = new HttpHeaders( {authorization : authToken});
+		
+       return this.http.get(this.userUrl, {headers: authHeader});
 
     }
 
@@ -41,7 +42,7 @@ export class LoginService {
 	logout() {
 		if ( this.authUser) {
 			this.http.post(this.logoutUrl, {}).subscribe(() => {
-			   this.authUser = null;
+			   this.resetAuth();
 			},
 			  (error) => {
 				console.log(error);
@@ -57,4 +58,9 @@ export class LoginService {
             password: model.password
         },{responseType: 'text'});
     }
+	
+	resetAuth(){
+		this.authUser = null;
+		 sessionStorage.setItem('authToken', '');
+	}
 }

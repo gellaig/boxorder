@@ -4,6 +4,7 @@ import com.example.boxorderserver.model.Location;
 import com.example.boxorderserver.service.LocationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class LocationController {
 
 
     @GetMapping(value = { "", "/" })
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public @NotNull Iterable<Location> getLocations() {
         return LocationService.getAllLocations();
     }

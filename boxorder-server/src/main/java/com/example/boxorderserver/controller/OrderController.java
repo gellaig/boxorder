@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -44,17 +45,20 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public @NotNull Iterable<Order> list() {
         return this.orderService.getAllOrders();
     }
     
     @GetMapping("/location/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Iterable<Order> listByLocation(@PathVariable String id) {
         return this.orderService.getAllOrdersByLocation(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Order> create(@RequestBody OrderForm form) {
         List<OrderProductDto> formDtos = form.getProductOrders();
         Location formLoc = form.getLocation();
@@ -90,6 +94,7 @@ public class OrderController {
     }
     
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long orderId){
 		Optional<Order> order = orderService.findById(orderId);
 
