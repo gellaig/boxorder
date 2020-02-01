@@ -43,13 +43,15 @@ export class LoginService {
 		if ( this.authUser) {
 			this.http.post(this.logoutUrl, {}).subscribe(() => {
 			   this.resetAuth();
+			   this.router.navigate(['']);
 			},
 			  (error) => {
 				console.log(error);
 			  }
 			);  
+		}else {
+			this.router.navigate(['']);
 		}
-		this.router.navigate(['']);
     }
 
      register(model : any): Observable<string> {
