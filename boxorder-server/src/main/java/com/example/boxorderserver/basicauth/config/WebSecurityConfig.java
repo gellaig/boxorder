@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	 http.cors().and()
          .httpBasic().and()
          .authorizeRequests()
-             .antMatchers("/subsystem", "/register", "/login", "/h2-console**").permitAll()
+             .antMatchers("/subsystem", "/register", "/login", "/h2-console/**").permitAll()
            //  .antMatchers("/resource").hasRole("ADMIN")
            //  .antMatchers("/api/**").access("hasRole('ROLE_USER')")
              .anyRequest().authenticated()

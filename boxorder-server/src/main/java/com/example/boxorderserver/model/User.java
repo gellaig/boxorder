@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -38,6 +40,9 @@ public class User implements UserDetails {
 	           joinColumns =  @JoinColumn(name ="userName"),inverseJoinColumns= @JoinColumn(name="role_id"))
 	 private Set<Role> roles;
 	
+	 @OneToOne(cascade = CascadeType.REMOVE )
+	 @JoinColumn(name = "profile_id", referencedColumnName = "profile_id")
+	 private Profile profile;
 	
 	
 	 public User(String userName, @NotNull(message = "password required") String password, Set<Role> roles) {
@@ -51,6 +56,17 @@ public class User implements UserDetails {
 	public User() {}
 
 	 
+	
+	public Profile getProfile() {
+		return profile;
+	}
+
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -105,6 +121,13 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", password=" + password + ", roles=" + roles + ", profile=" + profile
+				+ "]";
 	}
 	
 

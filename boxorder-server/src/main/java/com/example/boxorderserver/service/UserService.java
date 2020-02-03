@@ -15,5 +15,7 @@ public interface UserService {
     
     User save(User user);
     User create(User user);
+    
+    Optional<User> getUser(String name);
 
 }

@@ -1,6 +1,7 @@
 package com.example.boxorderserver.service;
 
 import com.example.boxorderserver.exception.ResourceNotFoundException;
+import com.example.boxorderserver.model.Profile;
 import com.example.boxorderserver.model.User;
 import com.example.boxorderserver.repository.UserRepository;
 
@@ -22,6 +23,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
     private UserRepository UserRepository;
 
+	@Autowired
+    private ProfileService profileService;
+
+	
     @Override
     public User save(User user) {
         return UserRepository.save(user);
@@ -35,9 +40,19 @@ public class UserServiceImpl implements UserService {
 
 		String hash = encoder.encode(user.getPassword());
 		user.setPassword(hash);
-		//System.out.println("*********************getauths:" +user.getAuthorities());
+		
+		Profile userProfile = profileService.create(new Profile());
+		user.setProfile(userProfile);
+		
+		System.out.println(user.toString());
+		
 		return UserRepository.save(user);
 
 		//log.info("new user has been created: {}", user.getUsername());
+	}
+
+	@Override
+	public Optional<User> getUser(String name) {
+		return UserRepository.findById(name);
 	}
 }
