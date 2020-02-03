@@ -17,6 +17,7 @@ import { RegisterComponent } from './login/register/register.component';
 import { RouterModule } from '@angular/router';
 import { TestComponent } from './test/test.component';
 import { SubsystemComponent } from './subsystem/subsystem.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -40,7 +41,8 @@ export class XhrInterceptor implements HttpInterceptor {
         RegisterComponent,
         LoginComponent,
         TestComponent,
-        SubsystemComponent
+        SubsystemComponent,
+        ProfileComponent
     ],
     imports: [
         BrowserModule,

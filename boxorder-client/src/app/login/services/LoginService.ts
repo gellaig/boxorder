@@ -11,7 +11,9 @@ export class LoginService {
     private registerUrl = this.baseUrl + "/register";
     private userUrl = this.baseUrl + "/user";
     private subsystemUrl = this.baseUrl +"/subsystem";
-    
+    public serverError : string;
+
+
 	authUser : string;
 	
     constructor(private http: HttpClient,

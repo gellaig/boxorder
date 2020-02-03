@@ -17,14 +17,12 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     sub: Subscription;
 	showCart = false;
 
-    @Output() onOrderFinished: EventEmitter<boolean>;
 
-    constructor(private ecommerceService: EcommerceService) {
+    constructor(public ecommerceService: EcommerceService) {
         this.total = 0;
 		this.totalQuantity = 0;
         this.orderFinished = false;
 		this.showCart = false;
-        this.onOrderFinished = new EventEmitter<boolean>();
     }
 
     ngOnInit() {
@@ -56,7 +54,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     finishOrder() {
         this.orderFinished = true;
         this.ecommerceService.Total = this.total;
-        this.onOrderFinished.emit(this.orderFinished);
         this.showCart = false;
     }
 
@@ -82,13 +79,17 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     }
 
     reset() {
-        this.orderFinished = false;
-		this.showCart = false;
-        this.orders = new ProductOrders();
-        this.orders.productOrders = []
-        this.loadTotal();
-        this.total = 0;
-		this.totalQuantity = 0;
+        if (this.ecommerceService.paid) {
+            //this.ecommerceService.paid = false;
+            this.orderFinished = false;
+            this.showCart = false;
+            this.orders = new ProductOrders();
+            this.orders.productOrders = []
+            this.loadTotal();
+            this.total = 0;
+            this.ecommerceService.Total = 0;
+            this.totalQuantity = 0;
+        }
     }
 	
 	gettotalQuantity(): number {

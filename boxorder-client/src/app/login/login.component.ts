@@ -15,7 +15,6 @@ import { SubsystemComponent } from '../subsystem/subsystem.component';
 export class LoginComponent implements OnInit {
 
     model: any = {};  
-    serverError : string;
     loading : boolean;
 
      @ViewChild('subsystemC', {static: true})
@@ -35,11 +34,11 @@ export class LoginComponent implements OnInit {
     }
 
     resetErrors(){
-        this.serverError = null;
+        this.loginService.serverError = null;
     }
 
-    loadSubsystems() {
-		this.subsystemC.loadSubsystems(this.serverError);
+     getServerError() : string{
+        return this.loginService.serverError ;
     }
 
     login() {
@@ -59,7 +58,7 @@ export class LoginComponent implements OnInit {
                 this.loginService.resetAuth();
 				//login failed
                 console.log(response);
-                this.serverError = JSON.stringify(response);
+                this.loginService.serverError = JSON.stringify(response);
                 this.loading = false;
             }
         },
@@ -68,9 +67,9 @@ export class LoginComponent implements OnInit {
                     //console.log(error);
 					
 					if (error.status == 0){
-						this.serverError = "Server is currently unavailable. Please try again later.";
+						this.loginService.serverError = "Server is currently unavailable. Please try again later.";
 					}else {
-						this.serverError = "Wrong username or password";
+						this.loginService.serverError = "Wrong username or password";
 					}
 					
 					this.loginService.resetAuth();

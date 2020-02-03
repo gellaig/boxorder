@@ -20,16 +20,16 @@ export class SubsystemComponent implements OnInit {
   }
 
 
-  loadSubsystems(serverError: string) {
+  loadSubsystems() {
 		if ( this.subsystems.length <= 0)  {
 			this.loginService.getSubsystems()
             .subscribe(
                 (subsystems: any[]) => {
                     this.subsystems = subsystems;
-                    serverError = null;
+                    this.loginService.serverError = null;
                 },
                 (error) => {
-                    serverError = "Server is currently unavailable. Please try again later."
+                    this.loginService.serverError = "Server is currently unavailable. Please try again later."
                     console.log(error);
                 }
             );

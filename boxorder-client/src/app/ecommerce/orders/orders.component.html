@@ -4,7 +4,7 @@
         {{ order.product.name }} - ${{ order.product.price }} x {{ order.quantity}} pcs.
     </li>
 </ul>
-<h3 class="text-right">Total amount: ${{ total }}</h3>
+<h3 class="text-right">Total amount: ${{ ecommerceService.Total }}</h3>
  
  <label for="sel1">Select location:</label>
 <select class="form-control" id="sel1" [(ngModel)]="selectedLocation" (click)="loadLocations()" (ngModelChange)="onValueChanged($event)">
@@ -14,8 +14,8 @@
       <br>
 
 
-<button class="btn btn-primary btn-block" (click)="pay()" *ngIf="!paid"  [disabled]="!selectedLocation">Pay</button>
+<button class="btn btn-primary btn-block" (click)="pay()" *ngIf="!ecommerceService.paid"  [disabled]="!selectedLocation">Pay</button>
 
-<div class="alert alert-success" role="alert" *ngIf="paid">
+<div class="alert alert-success" role="alert" *ngIf="ecommerceService.paid">
     <strong>Congratulation!</strong> You successfully made the order.
 </div>

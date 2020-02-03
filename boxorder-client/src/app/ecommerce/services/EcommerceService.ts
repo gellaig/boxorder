@@ -22,6 +22,7 @@ export class EcommerceService {
 
 	private authHeader : any;
     private total: number;
+    public paid : boolean;
 
     ProductOrderChanged = this.productOrderSubject.asObservable();
     OrdersChanged = this.ordersSubject.asObservable();
@@ -46,6 +47,7 @@ export class EcommerceService {
     }
 
     saveOrder(order: ProductOrders) {
+        this.paid = true;
         return this.http.post(this.ordersUrl, order, {headers: this.authHeader});
     }
 	

@@ -19,25 +19,13 @@ import { SubsystemComponent } from '../subsystem/subsystem.component';
 export class EcommerceComponent implements OnInit {
     private collapsed = true;
     orderFinished = false;
-    showProduct = true;
-    showBox = false;
     currentUser : string;
-
-    @ViewChild('productsC', {static: false})
-    productsC: ProductsComponent;
 
     @ViewChild('subsystemC', {static: true})
     subsystemC: SubsystemComponent;
 
       @ViewChild('shoppingCartC', {static: true})
     shoppingCartC: ShoppingCartComponent;
-
-    @ViewChild('ordersC', {static: true})
-    ordersC: OrdersComponent;
-
-    @ViewChild('boxC', {static: false})
-    boxC: BoxComponent;
-
 
      constructor(private http: HttpClient,
      private router: Router,
@@ -56,30 +44,9 @@ export class EcommerceComponent implements OnInit {
         this.collapsed = !this.collapsed;
     }
 
-    finishOrder(orderFinished: boolean) {
-        this.orderFinished = orderFinished;
-        this.showBox = false;
-         this.showProduct = false;
-    }
-
-     reloadAllData(loginSuccess: boolean) {
-        // this.loginC.getLoginUser();
-        // console.log(this.loginC.userName);
-         this.productsC.loadProducts();
-         //this.productsC.loadOrders();
-         this.boxC.loadLocations();
-         this.ordersC.loadLocations();
-    }
-
-    reset(showbox: boolean, showpeoduct: boolean) {
-        if (this.ordersC.paid) {
-            this.productsC.reset();
+    reset() {
+           // console.log('RESET');
             this.shoppingCartC.reset();
-            this.ordersC.paid = false;
-        }
-        this.orderFinished = false;
-        this.showBox = showbox;
-        this.showProduct = showpeoduct;
     }
 	
 	showCart(){

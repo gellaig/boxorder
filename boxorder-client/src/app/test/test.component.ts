@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import {LoginService} from '../login/services/LoginService';
 import { SubsystemComponent } from '../subsystem/subsystem.component';
+import { ProfileComponent } from '../profile/profile.component';
+
 
 @Component({
   selector: 'app-test',

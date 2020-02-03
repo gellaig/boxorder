@@ -11,7 +11,7 @@
             </li>
         </ul>
 
-        <button class="btn btn-light btn-block" (click)="finishOrder()"
+        <button class="btn btn-light btn-block" (click)="finishOrder()" routerLink="./orders"
                 [disabled]="orders.productOrders.length == 0">Checkout
         </button>
     </div>
