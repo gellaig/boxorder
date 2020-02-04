@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {Injectable} from "@angular/core";
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Profile } from 'src/app/ecommerce/models/profile.model';
 
 @Injectable()
 export class LoginService {
@@ -10,12 +11,14 @@ export class LoginService {
 	 private logoutUrl = this.baseUrl + "/logout";
     private registerUrl = this.baseUrl + "/register";
     private userUrl = this.baseUrl + "/user";
+    private profileUrl = this.baseUrl + "/profile";
     private subsystemUrl = this.baseUrl +"/subsystem";
     public serverError : string;
 
 
-	authUser : string;
-	
+	  authUser : string;
+    private authHeader : any;
+    
     constructor(private http: HttpClient,
 				private router: Router,) {
     }
@@ -28,10 +31,16 @@ export class LoginService {
 		let authToken = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
 		sessionStorage.setItem('authToken', authToken);
 		
-        const authHeader = new HttpHeaders( {authorization : authToken});
+        this.authHeader = new HttpHeaders( {authorization : authToken});
 		
-       return this.http.get(this.userUrl, {headers: authHeader});
+       return this.http.get(this.userUrl, {headers: this.authHeader});
 
+    }
+
+    getProfile(): Observable<Object> {
+        let params = new HttpParams().set('user', this.authUser);
+
+        return this.http.get(this.profileUrl, {headers: this.authHeader, params: params});
     }
 
     login(model : any): Observable<string> {

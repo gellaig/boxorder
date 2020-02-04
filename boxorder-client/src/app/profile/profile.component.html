@@ -1,3 +1,41 @@
-<p>
-  profile works!
-</p>
+<h3 class="text-center">PROFILE</h3>
+<div *ngIf="profile">
+  <div class="row">
+   
+    UserID <br>
+    <input class="form-control" type="text" placeholder="{{profile.profile_id}}" readonly>
+
+    Username <br>
+    <input class="form-control" type="text" placeholder="{{loginService.authUser}}" readonly>
+
+  </div>
+  <hr>
+  <div class="row">
+   
+    Firstname <br>
+    <input class="form-control" type="text" placeholder="{{profile.firstname}}">
+     <br>
+    Lastname <br>
+    <input class="form-control" type="text" placeholder="{{profile.lastname}}">
+    <br>
+    Email <br>
+    <input class="form-control" type="text" placeholder="{{profile.email}}">
+
+  </div>
+  <hr>
+  <div class="row">
+     <div class="form-group">
+      <label for="descriptiontext">Summary</label>
+     <textarea class="form-control" id="descriptiontext" rows="3">{{profile.description}}</textarea>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    Skills: <br>
+    <ul class="list-group" *ngFor="let skill of profile.skills">
+        <li class="list-group-item">
+        <div class="col-sm"> {{skill.name}} </div>
+        </li>
+      </ul>
+  </div>
+</div>

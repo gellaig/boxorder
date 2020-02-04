@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../login/services/LoginService';
+import { Profile } from '../ecommerce/models/profile.model';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  profile : Profile;
+
+  constructor(public loginService : LoginService) { }
 
   ngOnInit() {
+    if (this.loginService.authUser) {
+      this.loadProfile();
+    }
+  }
+
+
+  loadProfile() {
+    //console.log('Loadprofile');
+        this.loginService.getProfile()
+            .subscribe(
+                (profile: any) => {
+                    this.profile = profile;
+                },
+                (error) => console.log(error)
+            );
   }
 
 }
