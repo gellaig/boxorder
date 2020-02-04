@@ -2,10 +2,13 @@ package com.example.boxorderserver.service;
 
 import com.example.boxorderserver.exception.ResourceNotFoundException;
 import com.example.boxorderserver.model.Profile;
+import com.example.boxorderserver.model.Role;
 import com.example.boxorderserver.model.User;
 import com.example.boxorderserver.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
     private ProfileService profileService;
+	
+	@Autowired
+    private RoleService roleService;
 
 	
     @Override
@@ -43,6 +49,10 @@ public class UserServiceImpl implements UserService {
 		
 		Profile userProfile = profileService.create(new Profile());
 		user.setProfile(userProfile);
+		
+		Set<Role> userRoles = new HashSet<>();
+	    userRoles.add(roleService.getRoleById(1L).get()); //Default: ROLE_USER
+		user.setRoles(userRoles);
 		
 		System.out.println(user.toString());
 		

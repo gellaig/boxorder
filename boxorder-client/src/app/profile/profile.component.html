@@ -1,61 +1,69 @@
 <h3 class="text-center">PROFILE</h3>
 <div *ngIf="profile">
-  <div class="row" *ngIf="profileChanged">
-     <button class="btn btn-sm btn-primary" (click) = "saveProfile()">Save
-     </button>
-
-  </div>
-  <div class="row">
-   
-   <h5>UserID</h5> <br>
-    <input class="form-control" type="text" value="{{profile.profile_id}}" readonly>
-
-   <h5>Username</h5> <br>
-    <input class="form-control" type="text" value="{{loginService.authUser}}" readonly>
-
-  </div>
-  <hr>
-  <div class="row">
-   
-  <h5>Firstname</h5> <br>
-    <input class="form-control" type="text" [(ngModel)]="profile.firstname" value="{{profile.firstname}}"  (ngModelChange)="onValueChanged($event)">
-     <br>
-  <h5>Lastname</h5> <br>
-    <input class="form-control" type="text" [(ngModel)]="profile.lastname" value="{{profile.lastname}}"  (ngModelChange)="onValueChanged($event)">
-    <br>
-   <h5>Email</h5> <br>
-    <input class="form-control" type="text" [(ngModel)]="profile.email" value="{{profile.email}}"  (ngModelChange)="onValueChanged($event)">
-
-  </div>
-  <hr>
-  <div class="row">
-     <div class="form-group">
-      <label for="description"><h5>Summary</h5> ({{profile.description.length}}/500)</label>
-     <textarea class="form-control" id="description" rows="5" [(ngModel)]="profile.description"  (ngModelChange)="onValueChanged($event)" 
-                [disabled]="profile.description.length >= 500">{{profile.description}}
-      </textarea>
+    <div class="alert alert-success" *ngIf="updateSuccess">Update success 
+      <i (click)="updateSuccess=false" class="fa fa-window-close fa-sm float-right" style="vertical-align: middle;"></i>
     </div>
+  <div class="row float-right" *ngIf="profileChanged">
+    <div style="margin-right:5px;"><button class="btn btn-sm btn-primary" (click) = "saveProfile()">Save</button></div>
+     <div><button class="btn btn-sm btn-secondary" (click) = "loadProfile()">Cancel</button></div>
   </div>
-  <hr>
+  <br>
   <div class="row">
-    <h5>Skills</h5>({{profile.skills.length}}/25) <br>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="add new skill" aria-label="New skill" aria-describedby="basic-addon2" [(ngModel)]="newskill.name">
-      <div class="input-group-append">
-        <button class="btn btn-primary" (click)="addSkill()"
-               [disabled]="!newskill.name || profile.skills.length >= 25"><i class="fa fa-plus fa-lg"></i>
-        </button>
+      <h5>UserID</h5> <br>
+      <input class="form-control" type="text" value="{{profile.profile_id}}" readonly>
+  </div>
+  <div class="row" style="margin-top:10px">
+      <h5 >Username</h5> <br>
+      <input class="form-control" type="text" value="{{loginService.authUser}}" readonly>
+  </div>
+
+  <hr>
+ 
+  <div class="row" style="margin-top:10px">
+      <h5>Firstname</h5> <br>
+      <input class="form-control" type="text" [(ngModel)]="profile.firstname" value="{{profile.firstname}}" maxlength="30"  (ngModelChange)="onValueChanged($event)">
+  </div>
+  <div class="row" style="margin-top:10px">
+      <h5>Lastname</h5> <br>
+      <input class="form-control" type="text" [(ngModel)]="profile.lastname" value="{{profile.lastname}}" maxlength="30"  (ngModelChange)="onValueChanged($event)">
+  </div>
+  <div class="row" style="margin-top:10px">
+      <h5>Email</h5> <br>
+      <input class="form-control" type="email" [(ngModel)]="profile.email" value="{{profile.email}}" (ngModelChange)="onValueChanged($event)">  
+  </div>
+
+  <hr>
+
+  <div class="row" style="margin-top:10px">
+      <div class="form-group">
+        <label for="description"><h5>Summary</h5> ({{profile.description.length}}/500)</label>
+        <textarea class="form-control" id="description" rows="5" [(ngModel)]="profile.description"  (ngModelChange)="onValueChanged($event)" 
+                  maxlength="500">{{profile.description}}
+        </textarea>
       </div>
-    </div>
+  </div>
 
-    <div  class="list-group" *ngFor="let skill of profile.skills">
-         <div class="input-group mb-3" style="margin-right: 10px;">
-          <span class="border border-secondary bg-light">{{skill.name}}</span>
-          <div class="input-group-append">
-            <button class="btn btn-sm btn-danger" (click) = "deleteSkill(skill)"><i class="fa fa-trash fa-sm"></i>
-            </button>
-          </div>
+  <hr>
+
+  <div class="row" style="margin-top:10px">
+      <h5>Skills</h5>({{profile.skills.length}}/25) <br>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="add new skill" aria-label="New skill" aria-describedby="basic-addon2" [(ngModel)]="newskill.name">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="addSkill()"
+                [disabled]="!newskill.name || profile.skills.length >= 25"><i class="fa fa-plus fa-lg"></i>
+          </button>
         </div>
-    </div>
+      </div>
+
+      <div  class="list-group" *ngFor="let skill of profile.skills">
+          <div class="input-group mb-3" style="margin-right: 10px;">
+            <span class="border border-secondary bg-light" style="padding-right: 5px;padding-left: 5px;">{{skill.name}}</span>
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-danger" (click) = "deleteSkill(skill)"><i class="fa fa-trash fa-sm"></i>
+              </button>
+            </div>
+          </div>
+      </div>
   </div>
 </div>

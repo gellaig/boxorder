@@ -113,7 +113,7 @@ public class UserController {
 			 profileService.update(existingProfile);
 		 }
 		 	 
-		 return ResponseEntity.ok("Updated successfully");			
+		 return ResponseEntity.ok().body("Updated successfully");			
 	 }
 	 
 	 private String getCurrentUserName() {
