@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit {
     productSelected: boolean = false;
 
     constructor(private ecommerceService: EcommerceService,
-				private loginService: LoginService) {
+				public loginService: LoginService) {
     }
 
     ngOnInit() {

@@ -43,6 +43,12 @@ export class LoginService {
         return this.http.get(this.profileUrl, {headers: this.authHeader, params: params});
     }
 
+    updateProfile(profile : Profile): Observable<Object> {
+        let params = new HttpParams().set('user', this.authUser);
+
+        return this.http.put(this.profileUrl, profile, {headers: this.authHeader, params: params});
+    }
+
     login(model : any): Observable<string> {
        return this.http.post(this.loginUrl, {
             userName: model.username,

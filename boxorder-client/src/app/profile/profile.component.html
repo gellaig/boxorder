@@ -2,40 +2,52 @@
 <div *ngIf="profile">
   <div class="row">
    
-    UserID <br>
-    <input class="form-control" type="text" placeholder="{{profile.profile_id}}" readonly>
+   <h5>UserID</h5> <br>
+    <input class="form-control" type="text" value="{{profile.profile_id}}" readonly>
 
-    Username <br>
-    <input class="form-control" type="text" placeholder="{{loginService.authUser}}" readonly>
+   <h5>Username</h5> <br>
+    <input class="form-control" type="text" value="{{loginService.authUser}}" readonly>
 
   </div>
   <hr>
   <div class="row">
    
-    Firstname <br>
-    <input class="form-control" type="text" placeholder="{{profile.firstname}}">
+  <h5>Firstname</h5> <br>
+    <input class="form-control" type="text" value="{{profile.firstname}}">
      <br>
-    Lastname <br>
-    <input class="form-control" type="text" placeholder="{{profile.lastname}}">
+  <h5>Lastname</h5> <br>
+    <input class="form-control" type="text" value="{{profile.lastname}}">
     <br>
-    Email <br>
-    <input class="form-control" type="text" placeholder="{{profile.email}}">
+   <h5>Email</h5> <br>
+    <input class="form-control" type="text" value="{{profile.email}}">
 
   </div>
   <hr>
   <div class="row">
      <div class="form-group">
-      <label for="descriptiontext">Summary</label>
+      <label for="descriptiontext"><h5>Summary</h5></label>
      <textarea class="form-control" id="descriptiontext" rows="3">{{profile.description}}</textarea>
     </div>
   </div>
   <hr>
   <div class="row">
-    Skills: <br>
-    <ul class="list-group" *ngFor="let skill of profile.skills">
-        <li class="list-group-item">
-        <div class="col-sm"> {{skill.name}} </div>
-        </li>
-      </ul>
+    <h5>Skills</h5>({{profile.skills.length}}/25) <br>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="add new skill" aria-label="New skill" aria-describedby="basic-addon2" [(ngModel)]="newskill.name">
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="addSkill()" [disabled]="!newskill.name || profile.skills.length >= 25"><i class="fa fa-plus fa-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <div  class="list-group" *ngFor="let skill of profile.skills">
+         <div class="input-group mb-3" style="margin-right: 10px;">
+          <span class="border border-secondary bg-light">{{skill.name}}</span>
+          <div class="input-group-append">
+            <button class="btn btn-sm btn-danger" (click) = "deleteSkill(skill)"><i class="fa fa-trash fa-sm"></i>
+            </button>
+          </div>
+        </div>
+    </div>
   </div>
 </div>
