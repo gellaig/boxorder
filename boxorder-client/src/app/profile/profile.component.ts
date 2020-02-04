@@ -12,6 +12,7 @@ export class ProfileComponent implements OnInit {
 
   profile : Profile;
   newskill = new Skill();
+  profileChanged = false;
 
   constructor(public loginService : LoginService) { }
 
@@ -39,11 +40,15 @@ export class ProfileComponent implements OnInit {
             .subscribe(
                 (response: any) => {
                    console.log(response);
+                   this.profileChanged = false;
                 },
                 (error) => console.log(error)
             );
   }
 
+  public onValueChanged(event: any): void {
+      this.profileChanged = true;
+  }
 
   addSkill(){
     this.profile.skills.push(this.newskill);

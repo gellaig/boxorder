@@ -1,5 +1,10 @@
 <h3 class="text-center">PROFILE</h3>
 <div *ngIf="profile">
+  <div class="row" *ngIf="profileChanged">
+     <button class="btn btn-sm btn-primary" (click) = "saveProfile()">Save
+     </button>
+
+  </div>
   <div class="row">
    
    <h5>UserID</h5> <br>
@@ -13,20 +18,22 @@
   <div class="row">
    
   <h5>Firstname</h5> <br>
-    <input class="form-control" type="text" value="{{profile.firstname}}">
+    <input class="form-control" type="text" [(ngModel)]="profile.firstname" value="{{profile.firstname}}"  (ngModelChange)="onValueChanged($event)">
      <br>
   <h5>Lastname</h5> <br>
-    <input class="form-control" type="text" value="{{profile.lastname}}">
+    <input class="form-control" type="text" [(ngModel)]="profile.lastname" value="{{profile.lastname}}"  (ngModelChange)="onValueChanged($event)">
     <br>
    <h5>Email</h5> <br>
-    <input class="form-control" type="text" value="{{profile.email}}">
+    <input class="form-control" type="text" [(ngModel)]="profile.email" value="{{profile.email}}"  (ngModelChange)="onValueChanged($event)">
 
   </div>
   <hr>
   <div class="row">
      <div class="form-group">
-      <label for="descriptiontext"><h5>Summary</h5></label>
-     <textarea class="form-control" id="descriptiontext" rows="3">{{profile.description}}</textarea>
+      <label for="description"><h5>Summary</h5> ({{profile.description.length}}/500)</label>
+     <textarea class="form-control" id="description" rows="5" [(ngModel)]="profile.description"  (ngModelChange)="onValueChanged($event)" 
+                [disabled]="profile.description.length >= 500">{{profile.description}}
+      </textarea>
     </div>
   </div>
   <hr>
@@ -35,7 +42,8 @@
     <div class="input-group mb-3">
       <input type="text" class="form-control" placeholder="add new skill" aria-label="New skill" aria-describedby="basic-addon2" [(ngModel)]="newskill.name">
       <div class="input-group-append">
-        <button class="btn btn-primary" (click)="addSkill()" [disabled]="!newskill.name || profile.skills.length >= 25"><i class="fa fa-plus fa-lg"></i>
+        <button class="btn btn-primary" (click)="addSkill()"
+               [disabled]="!newskill.name || profile.skills.length >= 25"><i class="fa fa-plus fa-lg"></i>
         </button>
       </div>
     </div>
