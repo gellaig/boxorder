@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login/services/LoginService';
 import { Profile } from '../ecommerce/models/profile.model';
 import { Skill } from '../ecommerce/models/skill.model';
+import { City } from '../ecommerce/models/city.model';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,7 @@ export class ProfileComponent implements OnInit {
 
   profile : Profile;
   newskill = new Skill();
+  newcity = new City();
   profileChanged = false;
   updateSuccess = false; 
 
@@ -62,16 +64,48 @@ export class ProfileComponent implements OnInit {
   }
 
   addSkill(){
-    this.profile.skills.push(this.newskill);
-    this.newskill = new Skill();
-    this.profileChanged = true;
     this.updateSuccess = false;
+
+    //return if the element already exists
+    if (this.profile.skills.filter(e => e.name.toLocaleLowerCase() === this.newskill.name.toLocaleLowerCase()).length > 0){
+        this.newskill = new Skill(); 
+        return;
+    }
+    else {
+      this.profile.skills.push(this.newskill);
+      this.profileChanged = true;
+      this.newskill = new Skill(); 
+    }
   }
  
   deleteSkill(skill : Skill) {
     const index: number = this.profile.skills.indexOf(skill);
     if (index !== -1) {
         this.profile.skills.splice(index, 1);
+        this.profileChanged = true;
+        this.updateSuccess = false;
+    }        
+  }
+
+    addCity(){
+    this.updateSuccess = false;
+
+    //return if the element already exists
+    if (this.profile.cities.filter(e => e.name.toLocaleLowerCase() === this.newcity.name.toLocaleLowerCase()).length > 0){
+        this.newcity = new City(); 
+        return;
+    }
+    else {
+      this.profile.cities.push(this.newcity);
+      this.profileChanged = true;
+      this.newcity = new City(); 
+    }
+  }
+ 
+  deleteCity(city : City) {
+    const index: number = this.profile.cities.indexOf(city);
+    if (index !== -1) {
+        this.profile.cities.splice(index, 1);
         this.profileChanged = true;
         this.updateSuccess = false;
     }        

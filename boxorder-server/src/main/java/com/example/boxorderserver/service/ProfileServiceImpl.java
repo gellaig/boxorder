@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.boxorderserver.model.Profile;
+import com.example.boxorderserver.repository.CityRepository;
 import com.example.boxorderserver.repository.ProfileRepository;
 import com.example.boxorderserver.repository.SkillRepository;
 
@@ -22,10 +23,15 @@ public class ProfileServiceImpl implements ProfileService {
 	
 	@Autowired
     private SkillRepository skillRepository;
+	
+	@Autowired
+    private CityRepository cityRepository;
 
 	@Override
 	public Profile create(@NotNull(message = "The profile cannot be null.") @Valid Profile profile) {
 		profile.getSkills().forEach(skill -> skillRepository.save(skill));
+		profile.getCities().forEach(city -> cityRepository.save(city));
+		
 		return profileRepository.save(profile);
 	}
 
@@ -34,6 +40,8 @@ public class ProfileServiceImpl implements ProfileService {
 		System.out.println(profile.toString());
 		
 		profile.getSkills().forEach(skill -> skillRepository.save(skill));
+		profile.getCities().forEach(city -> cityRepository.save(city));
+		
 		profileRepository.save(profile);
 	}
 

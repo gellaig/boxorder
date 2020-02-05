@@ -109,7 +109,9 @@ public class UserController {
 				 existingProfile.setLastname(profile.getLastname());
 			// if (!profile.getSkills().isEmpty())
 				 existingProfile.setSkills(profile.getSkills());
-			 
+			// if (!profile.getCities().isEmpty())
+				 existingProfile.setCities(profile.getCities());
+				 
 			 profileService.update(existingProfile);
 		 }
 		 	 

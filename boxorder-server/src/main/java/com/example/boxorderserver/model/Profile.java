@@ -15,13 +15,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Fetch;
+
 @Entity
 @Table(name = "profile")
 public class Profile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long profile_id;
+	private Long id;
 	
 	private String firstname;
 	
@@ -30,37 +33,53 @@ public class Profile {
 	@Email(message = "Email should be valid")
 	private String email;
 	
-	 @Size(min = 10, max = 500, message 
-		      = "Description must be between 10 and 500 characters")
+	 @Size( max = 500, message 
+		      = "Description must be less than 500 characters")
 	 private String description;
 	
 	 @OneToMany(fetch = FetchType.EAGER)
 	 @Valid
+	 @Fetch(value = FetchMode.SUBSELECT)
 	 private List<Skill> skills = new ArrayList<>();
 
-	 
+	 @OneToMany(fetch = FetchType.EAGER)
+	 @Valid
+	 @Fetch(value = FetchMode.SUBSELECT)
+	 private List<City> cities = new ArrayList<>();
+
 	 
 	 
 	public Profile(Long profile_id, String firstname, String lastname,
 			@Email(message = "Email should be valid") String email,
 			@Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters") String description,
-			@Valid List<Skill> skills) {
-		this.profile_id = profile_id;
+			@Valid List<Skill> skills, @Valid List<City> cities) {
+		this.id = profile_id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.description = description;
 		this.skills = skills;
+		this.cities = cities;
 	}
 	
 	public Profile() {}
 
-	public Long getProfile_id() {
-		return profile_id;
+
+
+	public List<City> getCities() {
+		return cities;
 	}
 
-	public void setProfile_id(Long profile_id) {
-		this.profile_id = profile_id;
+	public void setCities(List<City> cities) {
+		this.cities = cities;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstname() {
@@ -105,8 +124,8 @@ public class Profile {
 
 	@Override
 	public String toString() {
-		return "Profile [profile_id=" + profile_id + ", firstname=" + firstname + ", lastname=" + lastname + ", email="
-				+ email + ", description=" + description + ", skills=" + skills + "]";
+		return "Profile [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", description=" + description + ", skills=" + skills + ", cities=" + cities + "]";
 	}
 
 	 

@@ -9,12 +9,15 @@
   </div>
   <br>
   <div class="row">
-      <h5>UserID</h5> <br>
-      <input class="form-control" type="text" value="{{profile.profile_id}}" readonly>
-  </div>
-  <div class="row" style="margin-top:10px">
-      <h5 >Username</h5> <br>
-      <input class="form-control" type="text" value="{{loginService.authUser}}" readonly>
+      <div class="col-sm">
+        <img class="img-thumbnail"  width="150" height="150" src="https://workhound.com/wp-content/uploads/2017/05/placeholder-profile-pic.png" alt="">
+      </div>
+      <div class="col-sm">
+        <h5>UserID</h5>
+        <input class="form-control" type="text" value="{{profile.id}}" readonly>
+        <h5 >Username</h5> 
+        <input class="form-control" type="text" value="{{loginService.authUser}}" readonly>
+      </div>
   </div>
 
   <hr>
@@ -40,6 +43,30 @@
         <textarea class="form-control" id="description" rows="5" [(ngModel)]="profile.description"  (ngModelChange)="onValueChanged($event)" 
                   maxlength="500">{{profile.description}}
         </textarea>
+      </div>
+  </div>
+
+    <hr>
+
+  <div class="row" style="margin-top:10px">
+      <h5>Cities</h5>({{profile.cities.length}}/25) <br>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="add new city" aria-label="New city" aria-describedby="basic-addon2" [(ngModel)]="newcity.name">   
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="addCity()"
+                [disabled]="!newcity.name || profile.cities.length >= 25"><i class="fa fa-plus fa-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <div  class="list-group" *ngFor="let city of profile.cities">
+          <div class="input-group mb-3" style="margin-right: 10px;">
+            <span class="border border-secondary bg-light" style="padding-right: 5px;padding-left: 5px;">{{city.name}}</span>
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-danger" (click) = "deleteCity(city)"><i class="fa fa-trash fa-sm"></i>
+              </button>
+            </div>
+          </div>
       </div>
   </div>
 
