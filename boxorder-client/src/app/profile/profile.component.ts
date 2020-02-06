@@ -1,9 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, Input } from '@angular/core';
 import { LoginService } from '../login/services/LoginService';
 import { Profile } from '../ecommerce/models/profile.model';
 import { Skill } from '../ecommerce/models/skill.model';
 import { City } from '../ecommerce/models/city.model';
 
+@Directive({  
+  selector: '[profile-image]',  
+  providers: [BROWSER_SANITIZATION_PROVIDERS],  
+  host: {  
+    '[src]': 'sanitizedImageData'  
+  }  
+}) 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -15,9 +22,13 @@ export class ProfileComponent implements OnInit {
   newskill = new Skill();
   newcity = new City();
   profileChanged = false;
-  updateSuccess = false; 
+  updateSuccess = false;
+  imageData: any;  
+  sanitizedImageData: any;  
+  @Input('profile-image') profileId: number;  
 
-  constructor(public loginService : LoginService) { }
+  constructor(public loginService : LoginService,
+              private sanitizer: DomSanitizationService) { }
 
   ngOnInit() {
     this.updateSuccess = false;
@@ -26,13 +37,16 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-
   loadProfile() {
     //console.log('Loadprofile');
         this.loginService.getProfile()
             .subscribe(
                 (profile: any) => {
                     this.profile = profile;
+                    console.log(this.profile.profilePicture);
+                    this.imageData = 'data:image/png;base64,' + this.profile.profilePicture;  
+                     this.sanitizedImageData = this.sanitizer.bypassSecurityTrustUrl(this.imageData);  
+
                     this.profileChanged = false;
 
                     if (!this.profile.description)

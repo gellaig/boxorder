@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.boxorderserver.model.Profile;
 import com.example.boxorderserver.model.User;
@@ -18,4 +19,6 @@ public interface ProfileService {
     void update(@NotNull(message = "The profile cannot be null.") @Valid Profile profile);
     
     Optional<Profile> getProfile(Long id);
+    
+    void saveImageFile(Long id, MultipartFile file);
 }

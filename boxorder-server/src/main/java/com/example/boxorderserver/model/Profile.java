@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,6 +38,9 @@ public class Profile {
 		      = "Description must be less than 500 characters")
 	 private String description;
 	
+	 @Lob
+	 private Byte[] profilePicture;
+	 
 	 @OneToMany(fetch = FetchType.EAGER)
 	 @Valid
 	 @Fetch(value = FetchMode.SUBSELECT)
@@ -120,6 +124,15 @@ public class Profile {
 
 	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
+	}
+	
+	
+	public Byte[] getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(Byte[] profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 	@Override

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.boxorderserver.model.Location;
 import com.example.boxorderserver.model.Profile;
@@ -116,6 +117,14 @@ public class UserController {
 		 }
 		 	 
 		 return ResponseEntity.ok().body("Updated successfully");			
+	 }
+	 
+	 @PostMapping("/profile/{id}/image")
+	 public String saveProfilePicture(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file){
+
+		 profileService.saveImageFile(id, file);
+
+	     return "Image upload success";
 	 }
 	 
 	 private String getCurrentUserName() {

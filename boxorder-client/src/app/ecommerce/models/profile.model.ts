@@ -9,8 +9,10 @@ export class Profile {
 	description : string;
     skills: Skill[] = [];
     cities: City[] = [];
+    profilePicture : Blob;
 
-    constructor(profile_id: number, firstname: string, lastname: string, email: string, description: string, skills: Skill[], cities: City[]) {
+    constructor(profile_id: number, firstname: string, lastname: string, email: string,
+                 description: string, skills: Skill[], cities: City[], profilePicture : Blob) {
         this.id = profile_id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -18,5 +20,6 @@ export class Profile {
         this.description = description;
         this.skills = skills;
          this.cities = cities;
+         this.profilePicture = profilePicture;
     }
 }
