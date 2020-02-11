@@ -1,1 +1,1 @@
-# Project for learning angular and spring boot
+# Learning project for angular and spring boot
